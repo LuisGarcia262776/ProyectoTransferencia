@@ -1,0 +1,11 @@
+proyectotransferencia\dtos\NuevoClienteDTO.class
+proyectotransferencia\entidades\Cliente.class
+proyectotransferencia\negocio\ClientesBO.class
+com\mycompany\proyectotransferencia\ProyectoTransferencia.class
+proyectotransferencia\persistencia\IClientesDAO.class
+proyectotransferencia\persistencia\PersistenciaException.class
+proyectotransferencia\negocio\IClientesBO.class
+proyectotransferencia\persistencia\ClientesDAO.class
+proyectotransferencia\conexion\ConexionBD.class
+proyectotransferencia\negocio\NegocioException.class
+proyectotransferencia\presentacion\NuevoClienteFORM.class
