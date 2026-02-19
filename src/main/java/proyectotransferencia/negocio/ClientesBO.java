@@ -55,7 +55,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("El Apellido Paterno es Muy Largo Excede los 30 Caracteres", null);
         }
 
-        // Apellido Materno
+        
         if (nuevoCliente.getApellidoMaterno() == null) {
             throw new NegocioException("El Apellido Materno es Obligatorio", null);
         }
@@ -67,7 +67,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("El Apellido Materno es Muy Largo Excede los 30 Caracteres", null);
         }
 
-        // Domicilio
+        
         if (nuevoCliente.getDomicilio() == null) {
             throw new NegocioException("El Domicilio es Obligatorio", null);
         }
