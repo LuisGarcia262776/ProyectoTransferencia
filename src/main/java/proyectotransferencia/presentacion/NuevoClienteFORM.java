@@ -16,7 +16,7 @@ import proyectotransferencia.negocio.IClientesBO;
 public class NuevoClienteFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NuevoClienteFORM.class.getName());
-     private final IClientesBO clientesBO;
+    private final IClientesBO clientesBO;
     /**
      * Creates new form NuevoClienteFORM
      */

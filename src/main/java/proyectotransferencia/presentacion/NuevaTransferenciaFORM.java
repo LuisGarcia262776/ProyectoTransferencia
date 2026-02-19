@@ -4,18 +4,23 @@
  */
 package proyectotransferencia.presentacion;
 
+import proyectotransferencia.negocio.IClientesBO;
+import proyectotransferencia.negocio.ITransferenciaBO;
+
 /**
  *
  * @author PC GAMER MASTER RACE
  */
 public class NuevaTransferenciaFORM extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NuevaTransferenciaFORM.class.getName());
+    private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(NuevoClienteFORM.class.getName());
+    private final ITransferenciaBO transferenciaBO;
 
     /**
      * Creates new form NuevaTransferencia
      */
-    public NuevaTransferenciaFORM() {
+    public NuevaTransferenciaFORM(ITransferenciaBO transferenciaBO) {
+        this.transferenciaBO = transferenciaBO;
         initComponents();
     }
 
