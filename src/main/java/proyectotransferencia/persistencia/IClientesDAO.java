@@ -13,6 +13,6 @@ import proyectotransferencia.entidades.Cliente;
  */
 public interface IClientesDAO {
     
-    public abstract Cliente crearCleinte(NuevoClienteDTO nuevoClienteDTO)throws PersistenciaException;
+    public abstract Cliente crearCliente(NuevoClienteDTO nuevoCliente)throws PersistenciaException;
     
 }

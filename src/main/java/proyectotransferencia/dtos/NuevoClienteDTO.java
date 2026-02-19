@@ -15,14 +15,14 @@ public class NuevoClienteDTO {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String domicilio;
-    private GregorianCalendar fechaNacimiento;      
     private String contrasenia;
+    private GregorianCalendar fechaNacimiento;      
     private GregorianCalendar fechaRegistro;        
 
     public NuevoClienteDTO() {
     }
 
-    public NuevoClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String domicilio, GregorianCalendar fechaNacimiento, String contrasenia, GregorianCalendar fechaRegistro) {
+    public NuevoClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String domicilio, String contrasenia, GregorianCalendar fechaNacimiento, GregorianCalendar fechaRegistro) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
