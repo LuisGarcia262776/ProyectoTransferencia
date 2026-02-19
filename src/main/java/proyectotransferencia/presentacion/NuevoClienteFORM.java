@@ -4,10 +4,14 @@
  */
 package proyectotransferencia.presentacion;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.JOptionPane;
+import proyectotransferencia.dtos.NuevoClienteDTO;
 import proyectotransferencia.negocio.IClientesBO;
+import proyectotransferencia.negocio.NegocioException;
 
 /**
  *
@@ -32,6 +36,37 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
         txtFechaRegistro.setText(formato.format(fechaActual));
         txtFechaRegistro.setEditable(false); // Para que no se modifique
     }
+    
+    private void guardar(){
+        try{
+            String nombre = this.txtNombre.getText();
+            String apellidoPaterno = this.txtApellidoPaterno.getText();
+            String apellidoMaterno = this.txtApellidoMaterno.getText();
+            String domicilio = this.txtDomicilio.getText();
+            String contrasenia = this.txtContrasenia.getText();
+            String fechaNacimiento = this.txtFechaNacimeinto.getText();
+            SimpleDateFormat formateadorFechas = new SimpleDateFormat("dd/MM/yyyy");
+            
+            long fechaNacimientoMilis = formateadorFechas.parse(fechaNacimiento).getTime();
+            GregorianCalendar fechaNaci = new GregorianCalendar();
+            fechaNaci.setTimeInMillis(fechaNacimientoMilis);
+            
+            GregorianCalendar calendario = new GregorianCalendar();
+            Date fechaActual = calendario.getTime();
+            
+            GregorianCalendar fechaRegi = new GregorianCalendar();
+       
+            NuevoClienteDTO nuevoCliente = new NuevoClienteDTO(nombre, apellidoPaterno, apellidoMaterno, domicilio, contrasenia, fechaNaci, fechaRegi);
+            this.clientesBO.crearCliente(nuevoCliente);
+            JOptionPane.showMessageDialog(this, "Cliente guardado", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }catch(ParseException ex){
+            JOptionPane.showMessageDialog(this, "La fecha de nacimiento tiene formato inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }catch(NegocioException ex){
+            //TODO
+        }
+        
+    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,6 +115,7 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
         btnSalir.setText("Salir");
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,6 +193,10 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        this.guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     
 
