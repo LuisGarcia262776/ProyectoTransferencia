@@ -4,18 +4,24 @@
  */
 package proyectotransferencia.presentacion;
 
+import proyectotransferencia.dtos.NuevaTransferenciaDTO;
+import proyectotransferencia.negocio.ITransferenciaBO;
+
 /**
  *
  * @author PC GAMER MASTER RACE
  */
 public class NuevaTransferenciaFORM extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NuevaTransferenciaFORM.class.getName());
+
+    private final ITransferenciaBO transferenciaBO;
 
     /**
      * Creates new form NuevaTransferencia
      */
-    public NuevaTransferenciaFORM() {
+    public NuevaTransferenciaFORM(ITransferenciaBO transferenciaBO) {
+        this.transferenciaBO = transferenciaBO;
         initComponents();
     }
 
@@ -57,6 +63,7 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         btnContinuar.setText("Continuar");
+        btnContinuar.addActionListener(this::btnContinuarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,6 +131,40 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+        try {
+            String cuentaOrigen;
+            String cuentaDestino;
+            Float monto;
+            String concepto;
+            Float saldoAntes;
+
+            //Float saldoDespues = saldoAntes - monto;
+
+            NuevaTransferenciaDTO nuevaTransferencia = new NuevaTransferenciaDTO(monto, concepto);
+
+            String fecha = java.time.LocalDate.now().toString();
+
+            ConfirmarTransferenciaFORM confirmarForm = new ConfirmarTransferenciaFORM(
+                    transferenciaBO,
+                    nuevaTransferencia,
+                    cuentaOrigen,
+                    cuentaDestino,
+                    saldoAntes,
+                    saldoDespues,
+                    fecha
+            );
+            confirmarForm.setVisible(true);
+
+            
+            // ? TODO
+        } catch (NumberFormatException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Monto o saldo inválido",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnContinuarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
