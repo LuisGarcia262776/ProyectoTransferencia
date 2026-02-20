@@ -4,8 +4,10 @@
  */
 package proyectotransferencia.negocio;
 
+import java.util.List;
 import proyectotransferencia.dtos.NuevaCuentaDTO;
 import proyectotransferencia.entidades.Cuenta;
+import proyectotransferencia.persistencia.PersistenciaException;
 
 /**
  *
@@ -14,5 +16,9 @@ import proyectotransferencia.entidades.Cuenta;
 public interface ICuentaBO {
     
     public abstract Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta)throws NegocioException;
+    
+    public abstract List<Cuenta> obtenerCuenta() throws NegocioException;
+    
+    public abstract Cuenta obtenerCuentaNumero(String numeroCuenta) throws NegocioException;
     
 }

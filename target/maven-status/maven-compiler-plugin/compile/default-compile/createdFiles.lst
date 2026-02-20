@@ -17,7 +17,9 @@ proyectotransferencia\conexion\ConexionBD.class
 proyectotransferencia\negocio\ICuentaBO.class
 proyectotransferencia\persistencia\ICuentaDAO.class
 proyectotransferencia\presentacion\NuevoClienteFORM.class
+proyectotransferencia\presentacion\PantallaInicioFORM.class
 proyectotransferencia\persistencia\IOperacionesDAO.class
+proyectotransferencia\presentacion\LoginFORM.class
 proyectotransferencia\presentacion\NuevaCuentaFORM.class
 proyectotransferencia\dtos\NuevaCuentaDTO.class
 proyectotransferencia\negocio\IClientesBO.class

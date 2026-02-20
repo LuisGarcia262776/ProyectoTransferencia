@@ -39,11 +39,8 @@ public class OperacionesDAO implements IOperacionesDAO{
             comando.setString(2, nuevaOperacion.getTipoOperacion());
             comando.setInt(3, nuevaOperacion.getIdCuenta());
 
-            int filas = comando.executeUpdate();
+            boolean resultado = comando.execute();
 
-            if (filas == 0) {
-                throw new PersistenciaException("No se Pudo Insertar La Operacion", null);
-            }
             
             LOGGER.fine("Se Registro La Operacion");
             return new Operaciones(null, nuevaOperacion.getFechaHora(), nuevaOperacion.getTipoOperacion(), null);

@@ -5,18 +5,22 @@
 package proyectotransferencia.negocio;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 import proyectotransferencia.dtos.NuevaOperacionDTO;
+import proyectotransferencia.entidades.Cuenta;
 import proyectotransferencia.entidades.Operaciones;
+import proyectotransferencia.persistencia.IOperacionesDAO;
+import proyectotransferencia.persistencia.PersistenciaException;
 
 /**
  *
  * @author PC GAMER MASTER RACE
  */
 public class OperacionesBO implements IOperacionesBO {
-    private final IOperacionesBO operacionesBO;
+     private final IOperacionesDAO operacionesDAO;
 
-    public OperacionesBO(IOperacionesBO operacionesBO) {
-        this.operacionesBO = operacionesBO;
+    public OperacionesBO(IOperacionesDAO operacionesDAO) {
+        this.operacionesDAO = operacionesDAO;
     }
     
     @Override
@@ -48,10 +52,15 @@ public class OperacionesBO implements IOperacionesBO {
             throw new NegocioException("Debe Proporcionar Una Cuenta Valida", null);
         }
         
-        Operaciones operaciones = this.operacionesBO.crearOperacion(nuevaOperacion);
-        return operaciones;
-        
-        
+       try{
+            Operaciones operacion = this.operacionesDAO.crearOperacion(nuevaOperacion);
+            return operacion;
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al Crear La Operacion", ex);
+        } 
     }
+
+
+ 
     
 }

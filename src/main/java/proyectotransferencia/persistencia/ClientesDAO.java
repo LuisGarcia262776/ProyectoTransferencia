@@ -84,16 +84,7 @@ public class ClientesDAO implements IClientesDAO{
                 GregorianCalendar fechaRegistro = new GregorianCalendar();
                 fechaRegistro.setTime(fechaRegBD);
 
-                Cliente cliente = new Cliente(
-                        idCliente,
-                        nombre,
-                        apellidoPaterno,
-                        apellidoMaterno,
-                        domicilio,
-                        contrasenia,
-                        fechaNacimiento,
-                        fechaRegistro
-                );
+                Cliente cliente = new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, domicilio, contrasenia, fechaNacimiento, fechaRegistro);
 
                 lista.add(cliente);
             }
@@ -103,6 +94,11 @@ public class ClientesDAO implements IClientesDAO{
         }catch(SQLException ex) {
             throw new PersistenciaException("Error al obtener clientes", ex);
         }
+    }
+
+    @Override
+    public Cliente iniciarSesion(String numeroCuenta, String contrasenia) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

@@ -16,5 +16,9 @@ public interface ICuentaDAO {
     
     public abstract Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta)throws PersistenciaException;
     
+    public abstract List<Cuenta> obtenerCuenta() throws PersistenciaException;
+    
+    public abstract Cuenta obtenerCuentaNumero(String numeroCuenta) throws PersistenciaException;
+    
     
 }

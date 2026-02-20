@@ -4,7 +4,9 @@
  */
 package proyectotransferencia.negocio;
 
+import java.util.List;
 import proyectotransferencia.dtos.NuevaOperacionDTO;
+import proyectotransferencia.entidades.Cuenta;
 import proyectotransferencia.entidades.Operaciones;
 
 /**
@@ -14,5 +16,6 @@ import proyectotransferencia.entidades.Operaciones;
 public interface IOperacionesBO {
     
     public abstract Operaciones crearOperacion(NuevaOperacionDTO nuevaOperacion)throws NegocioException;
+    
     
 }

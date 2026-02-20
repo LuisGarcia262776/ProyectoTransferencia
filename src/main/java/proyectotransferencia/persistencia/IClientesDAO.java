@@ -16,7 +16,9 @@ public interface IClientesDAO {
     
     public abstract Cliente crearCliente(NuevoClienteDTO nuevoCliente)throws PersistenciaException;
     
-    List<Cliente> obtenerClientes() throws PersistenciaException;
+    public abstract List<Cliente> obtenerClientes() throws PersistenciaException;
+    
+    public abstract Cliente iniciarSesion(String numeroCuenta, String contrasenia) throws PersistenciaException;
     
     
     

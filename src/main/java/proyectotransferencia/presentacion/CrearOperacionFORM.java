@@ -4,6 +4,17 @@
  */
 package proyectotransferencia.presentacion;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import javax.swing.JOptionPane;
+import proyectotransferencia.dtos.NuevaOperacionDTO;
+import proyectotransferencia.entidades.Cuenta;
+import proyectotransferencia.negocio.ICuentaBO;
+import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.NegocioException;
+
 /**
  *
  * @author PC GAMER MASTER RACE
@@ -11,13 +22,76 @@ package proyectotransferencia.presentacion;
 public class CrearOperacionFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrearOperacionFORM.class.getName());
-
-    /**
-     * Creates new form CrearOperacionFORM
-     */
-    public CrearOperacionFORM() {
+    private final IOperacionesBO operacionesBO;
+    private final ICuentaBO cuentaBO;
+    
+    public CrearOperacionFORM(IOperacionesBO operacionesBO, ICuentaBO cuentaBO) {
+        this.cuentaBO = cuentaBO;
+        this.operacionesBO =  operacionesBO;
         initComponents();
+        cargarTiposOperacion();
+        cargarCuentas();
+        btnContinuar.addActionListener(e -> crearOperacion());
+        btnSalir.addActionListener(e -> dispose());
+        GregorianCalendar calendario = new GregorianCalendar();
+        Date fechaActual = calendario.getTime();
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+        txtFechaHora.setText(formato.format(fechaActual));
+        txtFechaHora.setEditable(false);
     }
+    
+    private void cargarCuentas() {
+        cmbIdCuenta.removeAllItems();
+
+        try {
+            cuentaBO.obtenerCuenta();
+            List<Cuenta> cuentas = cuentaBO.obtenerCuenta();
+
+            for (Cuenta cuenta : cuentas) {
+                
+                cmbIdCuenta.addItem(String.valueOf(cuenta.getIdCuenta()));
+            }
+
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar cuentas");
+        }
+    }
+    
+    private void cargarTiposOperacion() {
+        cmbTipoOperacion.removeAllItems();
+        cmbTipoOperacion.addItem("DEPOSITO");
+        cmbTipoOperacion.addItem("RETIROSINTARJETA");
+        cmbTipoOperacion.addItem("TRANSFERENCIA");
+    }
+    
+    
+    private void crearOperacion() {
+
+        try {
+
+            String tipoOperacion = (String) cmbTipoOperacion.getSelectedItem();
+            String idCuentaTexto = (String) cmbIdCuenta.getSelectedItem();
+            Integer idCuenta = Integer.parseInt(idCuentaTexto);
+
+            
+            GregorianCalendar fechaHora = new GregorianCalendar();
+
+            NuevaOperacionDTO nuevaOperacion = new NuevaOperacionDTO(fechaHora, tipoOperacion, idCuenta);
+
+            operacionesBO.crearOperacion(nuevaOperacion);
+
+            JOptionPane.showMessageDialog(this, "Operacion creada correctamente");
+
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error inesperado");
+        }
+    }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -115,10 +115,7 @@ public class NuevaCuentaFORM extends javax.swing.JFrame {
         List<Cliente> clientes = clienteBO.obtenerClientes();
 
         for (Cliente c : clientes) {
-            String item = c.getIdCliente() + " - " 
-                        + c.getNombre() + " " 
-                        + c.getApellidoPaterno();
-
+            String item = c.getIdCliente() + " - " + c.getNombre() + " " + c.getApellidoPaterno();
             cmbClientes.addItem(item);
         }
 

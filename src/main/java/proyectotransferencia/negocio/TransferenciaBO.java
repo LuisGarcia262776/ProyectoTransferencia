@@ -44,6 +44,10 @@ public class TransferenciaBO implements ITransferenciaBO {
         if (nuevaTransferenciaDTO.getConcepto() == null || nuevaTransferenciaDTO.getConcepto().isEmpty()) {
             throw new NegocioException("El concepto es obligatorio", null);
         }
+        
+        if(nuevaTransferenciaDTO.getIdOperacion() == null){
+            throw new NegocioException("El id de la Operacion no Puede ser Nulo", null);
+        }
 
         try {
             return transferenciaDAO.crearTransferencia(nuevaTransferenciaDTO);

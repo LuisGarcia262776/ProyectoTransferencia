@@ -7,6 +7,7 @@ package proyectotransferencia.negocio;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import proyectotransferencia.dtos.NuevaCuentaDTO;
 import proyectotransferencia.entidades.Cuenta;
 import proyectotransferencia.persistencia.ICuentaDAO;
@@ -79,6 +80,25 @@ public class CuentaBO implements ICuentaBO {
             throw new NegocioException("Error al Crear La Cuenta", ex);
         }
 
+    }
+
+    @Override
+    public List<Cuenta> obtenerCuenta() throws NegocioException {
+        try {
+            return cuentaDAO.obtenerCuenta();
+        }catch (PersistenciaException ex) {
+            throw new NegocioException("No se Pudieron Obtener Las Cuentas", ex);
+        }
+    }
+
+    @Override
+    public Cuenta obtenerCuentaNumero(String numeroCuenta) throws NegocioException {
+        try {
+            return cuentaDAO.obtenerCuentaNumero(numeroCuenta);
+        }catch (PersistenciaException ex) {
+            throw new NegocioException("No se Pudieron Obtener El Numero de Cuenta", ex);
+        }
+        
     }
     
 }
