@@ -4,6 +4,7 @@
  */
 package proyectotransferencia.negocio;
 
+import java.util.List;
 import proyectotransferencia.dtos.NuevoClienteDTO;
 import proyectotransferencia.entidades.Cliente;
 
@@ -14,5 +15,7 @@ import proyectotransferencia.entidades.Cliente;
 public interface IClientesBO {
     
     public abstract Cliente crearCliente(NuevoClienteDTO nuevoCliente) throws NegocioException;
+    
+    List<Cliente> obtenerClientes() throws NegocioException;
     
 }

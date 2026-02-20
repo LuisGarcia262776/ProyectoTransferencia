@@ -5,19 +5,16 @@
 package proyectotransferencia.persistencia;
 
 import java.util.List;
-import proyectotransferencia.dtos.NuevoClienteDTO;
-import proyectotransferencia.entidades.Cliente;
+import proyectotransferencia.dtos.NuevaCuentaDTO;
+import proyectotransferencia.entidades.Cuenta;
 
 /**
  *
  * @author PC GAMER MASTER RACE
  */
-public interface IClientesDAO {
+public interface ICuentaDAO {
     
-    public abstract Cliente crearCliente(NuevoClienteDTO nuevoCliente)throws PersistenciaException;
-    
-    List<Cliente> obtenerClientes() throws PersistenciaException;
-    
+    public abstract Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta)throws PersistenciaException;
     
     
 }

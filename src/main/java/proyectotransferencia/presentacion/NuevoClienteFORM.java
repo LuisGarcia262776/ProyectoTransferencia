@@ -27,6 +27,8 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     public NuevoClienteFORM(IClientesBO clientesBO) {
         this.clientesBO = clientesBO;
         initComponents();
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
     
         GregorianCalendar calendario = new GregorianCalendar();
         Date fechaActual = calendario.getTime();
@@ -65,6 +67,10 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
             //TODO
         }
         
+    }
+    
+    public void salir(){
+        this.dispose();
     }
    
 
@@ -197,8 +203,11 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         this.guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
-
     
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        this.salir();
+    }
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;

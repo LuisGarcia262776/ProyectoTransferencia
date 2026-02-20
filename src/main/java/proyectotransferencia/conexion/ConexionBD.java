@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class ConexionBD {
     private static final String CADENA_CONEXION = "jdbc:mysql://localhost:3306/BancoDB";
     private static final String USUARIO = "root";
-    private static final String CONTRASENIA = "Eljarcor123!!";
+    private static final String CONTRASENIA = "luis";
     
     public static Connection crearConexion() throws SQLException{
          Connection conexion = DriverManager.getConnection(

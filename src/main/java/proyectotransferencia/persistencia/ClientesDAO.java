@@ -6,8 +6,13 @@ package proyectotransferencia.persistencia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Logger;
 import proyectotransferencia.conexion.ConexionBD;
 import proyectotransferencia.dtos.NuevoClienteDTO;
@@ -25,7 +30,7 @@ public class ClientesDAO implements IClientesDAO{
     public Cliente crearCliente(NuevoClienteDTO nuevoCliente) throws PersistenciaException {
         try{
             String comandoSQL = """
-                                Insert into clientes(nombre, apellidoPaterno, apellidoMaterno, domicilio, contrasenia, fechaNacimiento, fechaRegistro)
+                                INSERT INTO Clientes(nombre, apellidoPaterno, apellidoMaterno, domicilio, contrasenia, fechaNacimiento, fechaRegistro)
                                 VALUES(?, ?, ?, ?, ?, ?, ?);
                                 """;
             Connection conexion = ConexionBD.crearConexion();
@@ -51,6 +56,58 @@ public class ClientesDAO implements IClientesDAO{
             throw new PersistenciaException("No fue posible agregar al cliente", ex);
         }
     }
+    
+    @Override
+    public List<Cliente> obtenerClientes() throws PersistenciaException {
+        List<Cliente> lista = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM clientes";
+            Connection conexion = ConexionBD.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+            ResultSet resultado = comando.executeQuery();
+
+            while (resultado.next()) {
+
+                Integer idCliente = resultado.getInt("IdCliente");
+                String nombre = resultado.getString("nombre");
+                String apellidoPaterno = resultado.getString("apellidoPaterno");
+                String apellidoMaterno = resultado.getString("apellidoMaterno");
+                String domicilio = resultado.getString("domicilio");
+                String contrasenia = resultado.getString("contrasenia");
+
+                Date fechaNacBD = resultado.getDate("fechaNacimiento");
+                GregorianCalendar fechaNacimiento = new GregorianCalendar();
+                fechaNacimiento.setTime(fechaNacBD);
+
+                Date fechaRegBD = resultado.getDate("fechaRegistro");
+                GregorianCalendar fechaRegistro = new GregorianCalendar();
+                fechaRegistro.setTime(fechaRegBD);
+
+                Cliente cliente = new Cliente(
+                        idCliente,
+                        nombre,
+                        apellidoPaterno,
+                        apellidoMaterno,
+                        domicilio,
+                        contrasenia,
+                        fechaNacimiento,
+                        fechaRegistro
+                );
+
+                lista.add(cliente);
+            }
+
+            return lista;
+
+        }catch(SQLException ex) {
+            throw new PersistenciaException("Error al obtener clientes", ex);
+        }
+    }
+
+    
+    
+    
 
     
     

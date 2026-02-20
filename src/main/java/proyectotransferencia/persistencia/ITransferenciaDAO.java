@@ -13,6 +13,6 @@ import proyectotransferencia.entidades.Transferencia;
  */
 public interface ITransferenciaDAO {
     
-    public abstract Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferenciaDTO)throws PersistenciaException;
+    public abstract Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferencia)throws PersistenciaException;
     
 }
