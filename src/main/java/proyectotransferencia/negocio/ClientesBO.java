@@ -112,7 +112,7 @@ public class ClientesBO implements IClientesBO {
         }
         
         try{
-            Cliente cliente = this.clientesDAO.crearCleinte(nuevoCliente);
+            Cliente cliente = this.clientesDAO.crearCliente(nuevoCliente);
             return cliente;
         }catch(PersistenciaException ex){
             throw new NegocioException("Error al Crear al Cliente", ex);

@@ -1,11 +1,19 @@
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\com\mycompany\proyectotransferencia\ProyectoTransferencia.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\conexion\ConexionBD.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\dtos\NuevoClienteDTO.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\entidades\Cliente.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\ClientesBO.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\IClientesBO.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\NegocioException.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\ClientesDAO.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\IClientesDAO.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\PersistenciaException.java
-C:\Users\PC GAMER MASTER RACE\Documents\NetBeansProjects\ProyectoTransferencia\src\main\java\proyectotransferencia\presentacion\NuevoClienteFORM.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\com\mycompany\proyectotransferencia\ProyectoTransferencia.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\conexion\ConexionBD.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\dtos\NuevaTransferenciaDTO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\dtos\NuevoClienteDTO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\entidades\Cliente.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\entidades\Operaciones.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\entidades\Transferencia.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\ClientesBO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\IClientesBO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\ITransferenciaBO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\NegocioException.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\negocio\TransferenciaBO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\ClientesDAO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\IClientesDAO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\ITransferenciaDAO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\PersistenciaException.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\persistencia\TransferenciaDAO.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\presentacion\NuevaTransferenciaFORM.java
+C:\Users\Jaime\Documents\GitHub\ProyectoTransferencia\src\main\java\proyectotransferencia\presentacion\NuevoClienteFORM.java

@@ -15,7 +15,7 @@ public class ProyectoTransferencia {
     public static void main(String[] args) {
         IClientesDAO nuevoClienteDAO = new ClientesDAO();  
         IClientesBO clienteBO = new ClientesBO(nuevoClienteDAO);
-        NuevoClienteFORM nuevoautomovilForm = new  NuevoClienteFORM(clienteBO);
-          nuevoautomovilForm.setVisible(true);
+        NuevoClienteFORM nuevoClienteForm = new  NuevoClienteFORM(clienteBO);
+          nuevoClienteForm.setVisible(true);
     }
 }
