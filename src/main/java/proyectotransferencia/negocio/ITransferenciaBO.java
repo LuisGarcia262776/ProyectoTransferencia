@@ -13,6 +13,6 @@ import proyectotransferencia.entidades.Transferencia;
  */
 public interface ITransferenciaBO {
     
-    public abstract Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferenciaDTO) throws NegocioException;
+    public abstract Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferencia) throws NegocioException;
     
 }

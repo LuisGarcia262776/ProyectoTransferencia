@@ -11,13 +11,15 @@ package proyectotransferencia.dtos;
 public class NuevaTransferenciaDTO {
     private Float monto;
     private String concepto;
+    private Integer idOperacion;
 
     public NuevaTransferenciaDTO() {
     }
 
-    public NuevaTransferenciaDTO(Float monto, String concepto) {
+    public NuevaTransferenciaDTO(Float monto, String concepto, Integer idOperacion) {
         this.monto = monto;
         this.concepto = concepto;
+        this.idOperacion = idOperacion;
     }
 
     public Float getMonto() {
@@ -27,6 +29,13 @@ public class NuevaTransferenciaDTO {
     public String getConcepto() {
         return concepto;
     }
+
+    public Integer getIdOperacion() {
+        return idOperacion;
+    }
+    
+
+    
     
     
     

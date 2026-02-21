@@ -10,8 +10,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import proyectotransferencia.dtos.NuevoClienteDTO;
+import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.negocio.IClientesBO;
+import proyectotransferencia.negocio.ICuentaBO;
+import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
+import proyectotransferencia.sesion.Sesion;
 
 /**
  *
@@ -21,12 +26,20 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NuevoClienteFORM.class.getName());
     private final IClientesBO clientesBO;
+    private final ICuentaBO cuentaBO;
+    private final ITransferenciaBO transferenciaBO;
+    private final IOperacionesBO operacionesBO;
     /**
      * Creates new form NuevoClienteFORM
      */
-    public NuevoClienteFORM(IClientesBO clientesBO) {
+    public NuevoClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
         this.clientesBO = clientesBO;
+        this.cuentaBO = cuentaBO;
+        this.transferenciaBO = transferenciaBO;
+        this.operacionesBO = operacionesBO;
         initComponents();
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
     
         GregorianCalendar calendario = new GregorianCalendar();
         Date fechaActual = calendario.getTime();
@@ -38,33 +51,46 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     }
     
     private void guardar(){
-        try{
-            String nombre = this.txtNombre.getText();
-            String apellidoPaterno = this.txtApellidoPaterno.getText();
-            String apellidoMaterno = this.txtApellidoMaterno.getText();
-            String domicilio = this.txtDomicilio.getText();
-            String contrasenia = this.txtContrasenia.getText();
-            String fechaNacimiento = this.txtFechaNacimeinto.getText();
-            SimpleDateFormat formateadorFechas = new SimpleDateFormat("dd/MM/yyyy");
-            
-            long fechaNacimientoMilis = formateadorFechas.parse(fechaNacimiento).getTime();
+        try {
+            String nombre = txtNombre.getText();
+            String apellidoPaterno = txtApellidoPaterno.getText();
+            String apellidoMaterno = txtApellidoMaterno.getText();
+            String domicilio = txtDomicilio.getText();
+            String contrasenia = txtContrasenia.getText();
+            String fechaNacimiento = txtFechaNacimeinto.getText();
+
+            SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+            long milis = formateador.parse(fechaNacimiento).getTime();
+
             GregorianCalendar fechaNaci = new GregorianCalendar();
-            fechaNaci.setTimeInMillis(fechaNacimientoMilis);
-            
-            GregorianCalendar calendario = new GregorianCalendar();
-            Date fechaActual = calendario.getTime();
-            
+            fechaNaci.setTimeInMillis(milis);
+
             GregorianCalendar fechaRegi = new GregorianCalendar();
-       
+
             NuevoClienteDTO nuevoCliente = new NuevoClienteDTO(nombre, apellidoPaterno, apellidoMaterno, domicilio, contrasenia, fechaNaci, fechaRegi);
-            this.clientesBO.crearCliente(nuevoCliente);
-            JOptionPane.showMessageDialog(this, "Cliente guardado", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }catch(ParseException ex){
-            JOptionPane.showMessageDialog(this, "La fecha de nacimiento tiene formato inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }catch(NegocioException ex){
-            //TODO
-        }
-        
+
+            Cliente clienteID = clientesBO.crearCliente(nuevoCliente);
+            
+            Sesion.iniciarSesion(clienteID);
+
+            JOptionPane.showMessageDialog(this, "Cliente guardado correctamente" + "Su ID es: " + clienteID.getIdCliente());
+            
+
+            NuevaCuentaFORM pantalla = new NuevaCuentaFORM(cuentaBO, clientesBO, transferenciaBO, operacionesBO);
+
+            pantalla.setVisible(true);
+
+            this.dispose();
+
+        }catch(ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Fecha inválida");
+        }catch(NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }    
+    }
+    
+    public void salir(){
+        this.dispose();
     }
    
 
@@ -197,8 +223,11 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         this.guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
-
     
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        this.salir();
+    }
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;

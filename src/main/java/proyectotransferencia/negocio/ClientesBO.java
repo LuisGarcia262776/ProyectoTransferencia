@@ -7,6 +7,7 @@ package proyectotransferencia.negocio;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import proyectotransferencia.dtos.NuevoClienteDTO;
 import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.persistencia.IClientesDAO;
@@ -23,8 +24,6 @@ public class ClientesBO implements IClientesBO {
         this.clientesDAO = clientesDAO;
     }
     
-    
-
     @Override
     public Cliente crearCliente(NuevoClienteDTO nuevoCliente) throws NegocioException {
         if (nuevoCliente == null) {
@@ -116,7 +115,46 @@ public class ClientesBO implements IClientesBO {
             return cliente;
         }catch(PersistenciaException ex){
             throw new NegocioException("Error al Crear al Cliente", ex);
+        }   
+    }
+
+    @Override
+    public List<Cliente> obtenerClientes() throws NegocioException {
+        try {
+            return clientesDAO.obtenerClientes();
+        }catch (PersistenciaException ex) {
+            throw new NegocioException("No se pudieron obtener los clientes", ex);
         }
     }
+
+    @Override
+    public Cliente iniciarSesion(Integer idCliente, String contrasenia) throws NegocioException {
+        try {
+            if(idCliente == null){
+            throw new NegocioException("Ingrese el ID", null);
+            }
+
+            if(contrasenia == null || contrasenia.isEmpty()){
+                throw new NegocioException("Ingrese la contraseña", null);
+            }
+
+
+            Cliente cliente =
+                    clientesDAO.iniciarSesion(idCliente, contrasenia);
+
+            if(cliente == null){
+                throw new NegocioException("ID o contraseña incorrectos", null);
+            }
+
+            return cliente;
+
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al iniciar sesion", ex);
+            }
+    }
+
+    
+        
     
 }
+  

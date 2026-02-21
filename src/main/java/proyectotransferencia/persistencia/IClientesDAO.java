@@ -4,6 +4,7 @@
  */
 package proyectotransferencia.persistencia;
 
+import java.util.List;
 import proyectotransferencia.dtos.NuevoClienteDTO;
 import proyectotransferencia.entidades.Cliente;
 
@@ -14,5 +15,13 @@ import proyectotransferencia.entidades.Cliente;
 public interface IClientesDAO {
     
     public abstract Cliente crearCliente(NuevoClienteDTO nuevoCliente)throws PersistenciaException;
+    
+    public abstract List<Cliente> obtenerClientes() throws PersistenciaException;
+    
+    public Cliente iniciarSesion(Integer idCliente, String contrasenia)throws PersistenciaException;
+    
+    
+    
+    
     
 }
