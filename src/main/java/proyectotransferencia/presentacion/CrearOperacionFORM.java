@@ -16,6 +16,7 @@ import proyectotransferencia.entidades.Operaciones;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
 import proyectotransferencia.sesion.Sesion;
@@ -31,12 +32,14 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
     private final ICuentaBO cuentaBO;
     private final ITransferenciaBO transferenciaBO;
     private final IClientesBO clientesBO;
+    private final IRetiroSinCuentaBO retiroBO;
     
-    public CrearOperacionFORM(IOperacionesBO operacionesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IClientesBO clientesBO) {
+    public CrearOperacionFORM(IOperacionesBO operacionesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IClientesBO clientesBO, IRetiroSinCuentaBO retiroBO) {
         this.cuentaBO = cuentaBO;
         this.operacionesBO =  operacionesBO;
         this.transferenciaBO = transferenciaBO;
         this.clientesBO = clientesBO;
+        this.retiroBO = retiroBO;
         initComponents();
         cargarTiposOperacion();
         cargarCuentas();
@@ -108,7 +111,7 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
 
             if(tipoOperacion.equals("TRANSFERENCIA")){
 
-                NuevaTransferenciaFORM transferenciaForm = new NuevaTransferenciaFORM(transferenciaBO, cuentaBO, operacionesBO, clientesBO);
+                NuevaTransferenciaFORM transferenciaForm = new NuevaTransferenciaFORM(transferenciaBO, cuentaBO, operacionesBO, clientesBO, retiroBO);
 
                 transferenciaForm.setVisible(true);
 
@@ -149,13 +152,9 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
 
         lblFechaHora.setText("Fecha y Hora:");
 
-        cmbTipoOperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         lblTipoOperacion.setText("TipoOperacion");
 
         lbIdCuenta.setText("ID Cuenta:");
-
-        cmbIdCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
