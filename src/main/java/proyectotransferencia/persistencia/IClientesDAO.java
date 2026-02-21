@@ -18,7 +18,9 @@ public interface IClientesDAO {
     
     public abstract List<Cliente> obtenerClientes() throws PersistenciaException;
     
-    public abstract Cliente iniciarSesion(String numeroCuenta, String contrasenia) throws PersistenciaException;
+    public Cliente iniciarSesion(Integer idCliente, String contrasenia)throws PersistenciaException;
+    
+    
     
     
     

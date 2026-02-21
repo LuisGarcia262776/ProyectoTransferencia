@@ -10,10 +10,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import proyectotransferencia.dtos.NuevaOperacionDTO;
+import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.entidades.Cuenta;
+import proyectotransferencia.entidades.Operaciones;
+import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
+import proyectotransferencia.sesion.Sesion;
 
 /**
  *
@@ -24,15 +29,17 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrearOperacionFORM.class.getName());
     private final IOperacionesBO operacionesBO;
     private final ICuentaBO cuentaBO;
+    private final ITransferenciaBO transferenciaBO;
+    private final IClientesBO clientesBO;
     
-    public CrearOperacionFORM(IOperacionesBO operacionesBO, ICuentaBO cuentaBO) {
+    public CrearOperacionFORM(IOperacionesBO operacionesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IClientesBO clientesBO) {
         this.cuentaBO = cuentaBO;
         this.operacionesBO =  operacionesBO;
+        this.transferenciaBO = transferenciaBO;
+        this.clientesBO = clientesBO;
         initComponents();
         cargarTiposOperacion();
         cargarCuentas();
-        btnContinuar.addActionListener(e -> crearOperacion());
-        btnSalir.addActionListener(e -> dispose());
         GregorianCalendar calendario = new GregorianCalendar();
         Date fechaActual = calendario.getTime();
 
@@ -44,50 +51,73 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
     
     private void cargarCuentas() {
         cmbIdCuenta.removeAllItems();
-
         try {
-            cuentaBO.obtenerCuenta();
+
+            Cliente clienteActivo = Sesion.getClienteActivo();
+
+            if(clienteActivo == null){
+                JOptionPane.showMessageDialog(this, "No hay sesión activa");
+                return;
+            }
+
+            Integer idClienteActivo = clienteActivo.getIdCliente();
+
             List<Cuenta> cuentas = cuentaBO.obtenerCuenta();
 
             for (Cuenta cuenta : cuentas) {
-                
-                cmbIdCuenta.addItem(String.valueOf(cuenta.getIdCuenta()));
+
+                if(cuenta.getNumeroCuenta() != null &&
+                   cuenta.getCliente().getIdCliente().equals(idClienteActivo)){
+                    cmbIdCuenta.addItem(String.valueOf(cuenta.getIdCuenta()));
+                }
             }
 
-        } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar cuentas");
+        }catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
     
     private void cargarTiposOperacion() {
         cmbTipoOperacion.removeAllItems();
-        cmbTipoOperacion.addItem("DEPOSITO");
         cmbTipoOperacion.addItem("RETIROSINTARJETA");
         cmbTipoOperacion.addItem("TRANSFERENCIA");
     }
     
     
     private void crearOperacion() {
-
         try {
+            Cliente clienteActivo = Sesion.getClienteActivo();
 
-            String tipoOperacion = (String) cmbTipoOperacion.getSelectedItem();
-            String idCuentaTexto = (String) cmbIdCuenta.getSelectedItem();
-            Integer idCuenta = Integer.parseInt(idCuentaTexto);
+            if(clienteActivo == null){
+                throw new NegocioException("No hay sesión activa", null);
+            }
 
-            
+            String tipoOperacion = cmbTipoOperacion.getSelectedItem().toString();
+
+            Integer idCuenta = Integer.parseInt(cmbIdCuenta.getSelectedItem().toString());
+
             GregorianCalendar fechaHora = new GregorianCalendar();
 
             NuevaOperacionDTO nuevaOperacion = new NuevaOperacionDTO(fechaHora, tipoOperacion, idCuenta);
 
-            operacionesBO.crearOperacion(nuevaOperacion);
+            Operaciones operacion = operacionesBO.crearOperacion(nuevaOperacion);
 
-            JOptionPane.showMessageDialog(this, "Operacion creada correctamente");
+            JOptionPane.showMessageDialog(this, "Operacion creada correctamente"
+            );
 
-        } catch (NegocioException ex) {
+
+            if(tipoOperacion.equals("TRANSFERENCIA")){
+
+                NuevaTransferenciaFORM transferenciaForm = new NuevaTransferenciaFORM(transferenciaBO, cuentaBO, operacionesBO, clientesBO);
+
+                transferenciaForm.setVisible(true);
+
+                this.dispose();
+            }
+
+        }
+        catch(NegocioException ex){
             JOptionPane.showMessageDialog(this, ex.getMessage());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error inesperado");
         }
     }
     
@@ -128,8 +158,10 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
         cmbIdCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         btnContinuar.setText("Continuar");
+        btnContinuar.addActionListener(this::btnContinuarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,6 +225,14 @@ public class CrearOperacionFORM extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+        this.crearOperacion();
+    }//GEN-LAST:event_btnContinuarActionPerformed
 
     
 

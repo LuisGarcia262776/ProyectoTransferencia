@@ -127,6 +127,32 @@ public class ClientesBO implements IClientesBO {
         }
     }
 
+    @Override
+    public Cliente iniciarSesion(Integer idCliente, String contrasenia) throws NegocioException {
+        try {
+            if(idCliente == null){
+            throw new NegocioException("Ingrese el ID", null);
+            }
+
+            if(contrasenia == null || contrasenia.isEmpty()){
+                throw new NegocioException("Ingrese la contraseña", null);
+            }
+
+
+            Cliente cliente =
+                    clientesDAO.iniciarSesion(idCliente, contrasenia);
+
+            if(cliente == null){
+                throw new NegocioException("ID o contraseña incorrectos", null);
+            }
+
+            return cliente;
+
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al iniciar sesion", ex);
+            }
+    }
+
     
         
     

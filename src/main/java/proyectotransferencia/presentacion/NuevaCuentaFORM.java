@@ -14,7 +14,10 @@ import proyectotransferencia.dtos.NuevaCuentaDTO;
 import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
+import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
+import proyectotransferencia.sesion.Sesion;
 
 /**
  *
@@ -25,15 +28,19 @@ public class NuevaCuentaFORM extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NuevaCuentaFORM.class.getName());
     private final ICuentaBO cuentaBO;
     private final IClientesBO clienteBO;
+    private final ITransferenciaBO transferenciaBO;
+    private final IOperacionesBO operacionesBO;
 
     /**
      * Creates new form NuevaCuentaFORM
      */
-    public NuevaCuentaFORM(ICuentaBO cuentaBO, IClientesBO clienteBO) {
+    public NuevaCuentaFORM(ICuentaBO cuentaBO, IClientesBO clienteBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
         this.cuentaBO = cuentaBO;
         this.clienteBO = clienteBO;
+        this.transferenciaBO = transferenciaBO;
+        this.operacionesBO = operacionesBO;
         initComponents();
-
+        generarNumeroCuenta();
         cargarClientes();
 
         btnCancelar.setText("Cancelar");
@@ -45,90 +52,97 @@ public class NuevaCuentaFORM extends javax.swing.JFrame {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         txtFechaApertura.setText(formato.format(fechaActual));
+        txtNumeroCuenta.setEditable(false);
         txtFechaApertura.setEditable(false);
     }
     
     private void crearCuenta() {
-    try {
-        
-        if (cmbClientes.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione un cliente");
-            return;
+        try {
+            if (cmbClientes.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(this, "Seleccione un cliente");
+                return;
+            }
+
+            Integer idCliente = Sesion.getIdCliente();
+
+            if(idCliente == null){
+                JOptionPane.showMessageDialog(this, "No hay sesión activa");
+                return;
+            }
+
+            String numeroCuenta = this.txtNumeroCuenta.getText();
+            String fechaAperturaTexto = this.txtFechaApertura.getText();
+            String saldoTexto = this.txtSaldo.getText();
+
+            if (numeroCuenta.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El Numero de Cuenta es Obligatorio");
+                return;
+            }
+
+            if (saldoTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El Saldo es Obligatorio");
+                return;
+            }
+
+            Double saldo = Double.parseDouble(saldoTexto);
+
+            if (saldo < 0) {
+                JOptionPane.showMessageDialog(this, "El Saldo no Puede ser Negativo");
+                return;
+            }
+
+            SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+            long fechaMilis = formateador.parse(fechaAperturaTexto).getTime();
+
+            GregorianCalendar fechaApertura = new GregorianCalendar();
+            fechaApertura.setTimeInMillis(fechaMilis);
+
+            String estado = "ACTIVA";
+
+            NuevaCuentaDTO nuevaCuenta = new NuevaCuentaDTO(numeroCuenta, fechaApertura, saldo, estado, idCliente);
+
+            this.cuentaBO.crearCuenta(nuevaCuenta);
+
+            JOptionPane.showMessageDialog(this, "Cuenta Guardada Con Exito");
+
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clienteBO, cuentaBO, transferenciaBO, operacionesBO);
+
+            menu.setVisible(true);
+
+            this.dispose();
+
         }
-        
-        String clienteSeleccionado = (String) cmbClientes.getSelectedItem();
-        String[] partes = clienteSeleccionado.split(" - ");
-        Integer idCliente = Integer.parseInt(partes[0]);
-        String numeroCuenta = this.txtNumeroCuenta.getText();
-        String fechaAperturaTexto = this.txtFechaApertura.getText();
-        String saldoTexto = this.txtSaldo.getText();
-
-        if (numeroCuenta.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El Numero de Cuenta es Obligatorio");
-            return;
+        catch(ParseException ex){
+            JOptionPane.showMessageDialog(this, "La Fecha de Registro tiene formato inválido");
         }
-
-        if (saldoTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El Saldo es Obligatorio");
-            return;
-        }
-
-        Double saldo = Double.parseDouble(saldoTexto);
-
-        if (saldo < 0) {
-            JOptionPane.showMessageDialog(this, "El Saldo no Puede ser Negativo");
-            return;
-        }
-
-        
-        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-        long fechaMilis = formateador.parse(fechaAperturaTexto).getTime();
-
-        GregorianCalendar fechaApertura = new GregorianCalendar();
-        fechaApertura.setTimeInMillis(fechaMilis);
-
-        // 🔥 Estado por defecto
-        String estado = "ACTIVA";
-
-        NuevaCuentaDTO nuevaCuenta = new NuevaCuentaDTO(
-                numeroCuenta,
-                fechaApertura,
-                saldo,
-                estado,
-                idCliente
-        );
-
-        this.cuentaBO.crearCuenta(nuevaCuenta);
-        JOptionPane.showMessageDialog(this, "Cuenta Guardada Con Exito", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }catch(ParseException ex){
-            JOptionPane.showMessageDialog(this, "La Fecha de Registro tiene formato inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }catch(NegocioException ex){
-            //TODO
+        catch(NegocioException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
 
     }
     
     private void cargarClientes() {
-    try {
-        cmbClientes.removeAllItems(); // limpia el modelo
+        try {
+            cmbClientes.removeAllItems();
 
-        List<Cliente> clientes = clienteBO.obtenerClientes();
+            List<Cliente> clientes = clienteBO.obtenerClientes();
 
-        for (Cliente c : clientes) {
-            String item = c.getIdCliente() + " - " + c.getNombre() + " " + c.getApellidoPaterno();
-            cmbClientes.addItem(item);
+            for (Cliente c : clientes) {
+                String item = c.getIdCliente() + " - " + c.getNombre() + " " + c.getApellidoPaterno();
+                cmbClientes.addItem(item);
+            }
+
+        }catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-
-    }catch (NegocioException ex) {
-        JOptionPane.showMessageDialog(this, ex.getMessage());
     }
-}
+    
+    private void generarNumeroCuenta(){
+        String numero = String.format("%020d", System.currentTimeMillis());
+        txtNumeroCuenta.setText(numero);
+    }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

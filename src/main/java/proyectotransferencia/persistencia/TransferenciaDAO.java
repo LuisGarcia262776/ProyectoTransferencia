@@ -6,10 +6,12 @@ package proyectotransferencia.persistencia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 import proyectotransferencia.conexion.ConexionBD;
 import proyectotransferencia.dtos.NuevaTransferenciaDTO;
+import proyectotransferencia.entidades.Operaciones;
 import proyectotransferencia.entidades.Transferencia;
 
 /**
@@ -22,29 +24,32 @@ public class TransferenciaDAO implements ITransferenciaDAO {
     @Override
     public Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferencia) throws PersistenciaException {
         try {
-
-            String comandoSQL = """
-                                INSERT INTO Transferencias(monto, concepto, idOperacion)
-                                VALUES(?, ?, ?);
-                                """;
-
+            String sql = """
+                        INSERT INTO Transferencias(IdOperacion, Monto, Concepto)
+                        VALUES (?, ?, ?);
+                        """;
+            
             Connection conexion = ConexionBD.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(comandoSQL);
+            PreparedStatement comando = conexion.prepareStatement(sql);
+            comando.setInt(1, nuevaTransferencia.getIdOperacion());
 
-            comando.setFloat(1, nuevaTransferencia.getMonto());
-            comando.setString(2, nuevaTransferencia.getConcepto());
-            comando.setInt(3, nuevaTransferencia.getIdOperacion());
+            comando.setFloat(2, nuevaTransferencia.getMonto());
 
-            int filas = comando.executeUpdate();
+            comando.setString(3, nuevaTransferencia.getConcepto());
 
-            LOGGER.fine("Se Registró La Transferencia");
-            return new Transferencia(nuevaTransferencia.getMonto(), nuevaTransferencia.getConcepto(), null);
+            comando.executeUpdate();
 
-        } catch (SQLException ex) {
-            throw new PersistenciaException("No fue posible agregar la transferencia", ex);
+            LOGGER.fine("Transferencia creada correctamente");
+            
+            Operaciones operacion = new Operaciones();
+            operacion.setIdOperacion(nuevaTransferencia.getIdOperacion());
+
+            return new Transferencia(nuevaTransferencia.getMonto(), nuevaTransferencia.getConcepto(), operacion);
+
+        }catch(SQLException ex){
+            throw new PersistenciaException("Error al crear transferencia", ex);
         }
-        
-        
     }
+        
     
 }

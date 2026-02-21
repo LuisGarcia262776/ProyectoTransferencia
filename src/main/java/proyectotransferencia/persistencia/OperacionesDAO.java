@@ -6,11 +6,15 @@ package proyectotransferencia.persistencia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.logging.Logger;
 import proyectotransferencia.conexion.ConexionBD;
 import proyectotransferencia.dtos.NuevaOperacionDTO;
+import proyectotransferencia.entidades.Cuenta;
 import proyectotransferencia.entidades.Operaciones;
 
 /**
@@ -23,31 +27,44 @@ public class OperacionesDAO implements IOperacionesDAO{
     
     @Override
     public Operaciones crearOperacion(NuevaOperacionDTO nuevaOperacion) throws PersistenciaException {
-        try {
-            String comandoSQL = """
-                                INSERT INTO Operaciones(FechaHora, TipoOperacion, IdCuenta)
-                                VALUES (?, ?, ?);
-                                """;
-
+        try{
+            String sql ="""
+                    INSERT INTO Operaciones (fechaHora, tipoOperacion, idCuenta) VALUES (?, ?, ?);
+                    """;
+        
             Connection conexion = ConexionBD.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(comandoSQL);
 
-            SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String fechaHoraFormateada = formateador.format(nuevaOperacion.getFechaHora().getTime());
+            PreparedStatement ps = conexion.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
-            comando.setString(1, fechaHoraFormateada);
-            comando.setString(2, nuevaOperacion.getTipoOperacion());
-            comando.setInt(3, nuevaOperacion.getIdCuenta());
+            ps.setTimestamp(1, new Timestamp(nuevaOperacion.getFechaHora().getTimeInMillis()));
 
-            boolean resultado = comando.execute();
+            ps.setString(2,nuevaOperacion.getTipoOperacion());
 
-            
-            LOGGER.fine("Se Registro La Operacion");
-            return new Operaciones(null, nuevaOperacion.getFechaHora(), nuevaOperacion.getTipoOperacion(), null);
-            
-        } catch (SQLException ex) {
-            LOGGER.severe(ex.getMessage());
-            throw new PersistenciaException("Error al Crear la Operacion", ex);
+            ps.setInt(3,nuevaOperacion.getIdCuenta());
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if(rs.next()){
+                Integer idOperacion = rs.getInt(1);
+
+                Operaciones operacion = new Operaciones();
+
+                operacion.setIdOperacion(idOperacion);
+                operacion.setFechaHora(nuevaOperacion.getFechaHora());
+                operacion.setTipoOperacion(nuevaOperacion.getTipoOperacion());
+                Cuenta cuenta = new Cuenta();
+                cuenta.setIdCuenta(nuevaOperacion.getIdCuenta());
+                operacion.setCuenta(cuenta); 
+
+                return operacion;
+            }
+
+            throw new PersistenciaException("No se pudo obtener el ID de la operación", null);
+
+        }catch(SQLException ex){
+            throw new PersistenciaException("Error al crear operación", ex);
         }
     }
         

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +35,7 @@ public class ClientesDAO implements IClientesDAO{
                                 VALUES(?, ?, ?, ?, ?, ?, ?);
                                 """;
             Connection conexion = ConexionBD.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(comandoSQL); 
+            PreparedStatement comando = conexion.prepareStatement(comandoSQL, Statement.RETURN_GENERATED_KEYS); 
             SimpleDateFormat formateadorFechas = new SimpleDateFormat("yyyy-MM-dd");
             String fechaNaci = formateadorFechas.format(nuevoCliente.getFechaNacimiento().getTime());
             String fechaRegi = formateadorFechas.format(nuevoCliente.getFechaRegistro().getTime());
@@ -48,9 +49,20 @@ public class ClientesDAO implements IClientesDAO{
             comando.setString(7, fechaRegi);
             //Ejecutar comando y ver resultado
             boolean resultado = comando.execute();
+            
+             //Recuperamos El Id
+            ResultSet rs = comando.getGeneratedKeys();
+
+            Integer idGenerado = null;
+
+            if (rs.next()) {
+                idGenerado = rs.getInt(1);
+            }
+            
+            
             // TODO SETEAR EL ID QUE NOS DEVOLVIÓ LA BASE
-            LOGGER.fine("Se registró el cliente");
-            return new Cliente(null, nuevoCliente.getNombre(), nuevoCliente.getApellidoPaterno(), nuevoCliente.getApellidoMaterno(), nuevoCliente.getDomicilio(), nuevoCliente.getContrasenia(), nuevoCliente.getFechaNacimiento(), nuevoCliente.getFechaRegistro());
+            LOGGER.fine("Se registró el cliente con el ID: " + idGenerado);
+            return new Cliente(idGenerado, nuevoCliente.getNombre(), nuevoCliente.getApellidoPaterno(), nuevoCliente.getApellidoMaterno(), nuevoCliente.getDomicilio(), nuevoCliente.getContrasenia(), nuevoCliente.getFechaNacimiento(), nuevoCliente.getFechaRegistro());
         }catch(SQLException ex){
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("No fue posible agregar al cliente", ex);
@@ -97,14 +109,41 @@ public class ClientesDAO implements IClientesDAO{
     }
 
     @Override
-    public Cliente iniciarSesion(String numeroCuenta, String contrasenia) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Cliente iniciarSesion(Integer idCliente, String contrasenia) throws PersistenciaException {
+        try {
+            String sql ="""
+                        SELECT * FROM Clientes WHERE IdCliente = ? AND Contrasenia = ?;
+                        """;
+            
+            Connection conexion = ConexionBD.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+
+            comando.setInt(1, idCliente);
+            comando.setString(2, contrasenia);
+            ResultSet rs = comando.executeQuery();
+            
+            if(rs.next()){
+                Integer id = rs.getInt("IdCliente");
+                String nombre = rs.getString("Nombre");
+                String apellidoP = rs.getString("ApellidoPaterno");
+                String apellidoM = rs.getString("ApellidoMaterno");
+                String domicilio = rs.getString("Domicilio");
+
+                Date fechaNacBD = rs.getDate("FechaNacimiento");
+                GregorianCalendar fechaNacimiento = new GregorianCalendar();
+                fechaNacimiento.setTime(fechaNacBD);
+
+                Date fechaRegBD = rs.getDate("FechaRegistro");
+                GregorianCalendar fechaRegistro = new GregorianCalendar();
+                fechaRegistro.setTime(fechaRegBD);
+
+                return new Cliente(id,nombre,apellidoP,apellidoM,domicilio,contrasenia,fechaNacimiento,fechaRegistro);
+            }
+            return null;
+        }
+        catch(SQLException ex){
+            throw new PersistenciaException("Error al iniciar sesión",ex);
+        }
     }
-
-    
-    
-    
-
-    
     
 }

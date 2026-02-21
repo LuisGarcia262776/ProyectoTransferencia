@@ -38,10 +38,6 @@ public class CuentaBO implements ICuentaBO {
             throw new NegocioException("El Numero de Cuenta No Puede Estar Vacio", null);
         }
         
-        if(!nuevaCuenta.getNumeroCuenta().matches("\\d{20}")){
-            throw new NegocioException("El Numero de Cuenta Solo Puede ser de 20 Caracteres", null);
-        }
-        
         if(nuevaCuenta.getFechaApertura() == null){
             throw new NegocioException("La Fecha de Registro No Puede ser Nula", null);
         }
@@ -99,6 +95,24 @@ public class CuentaBO implements ICuentaBO {
             throw new NegocioException("No se Pudieron Obtener El Numero de Cuenta", ex);
         }
         
+    }
+
+    @Override
+    public void retirar(Integer idCuenta, Float monto) throws NegocioException {
+        try {
+            cuentaDAO.retirar(idCuenta, monto);
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al retirar dinero", ex);
+        }
+    }
+
+    @Override
+    public void depositar(Integer idCuenta, Float monto) throws NegocioException {
+        try {
+            cuentaDAO.depositar(idCuenta, monto);
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al depositar dinero", ex);
+        }
     }
     
 }

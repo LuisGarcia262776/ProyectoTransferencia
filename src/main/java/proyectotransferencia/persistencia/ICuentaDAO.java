@@ -20,5 +20,9 @@ public interface ICuentaDAO {
     
     public abstract Cuenta obtenerCuentaNumero(String numeroCuenta) throws PersistenciaException;
     
+     public abstract void retirar(Integer idCuenta, Float monto) throws PersistenciaException;
+
+    public abstract void depositar(Integer idCuenta, Float monto) throws PersistenciaException;
+    
     
 }

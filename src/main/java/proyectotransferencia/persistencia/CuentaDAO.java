@@ -37,7 +37,7 @@ public class CuentaDAO implements ICuentaDAO {
             """;
 
             Connection conexion = ConexionBD.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(comandoSQL);
+            PreparedStatement comando = conexion.prepareStatement(comandoSQL, Statement.RETURN_GENERATED_KEYS);
 
             SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
             String fechaApertura = formateador.format(nuevaCuenta.getFechaApertura().getTime());
@@ -48,11 +48,20 @@ public class CuentaDAO implements ICuentaDAO {
             comando.setString(4, nuevaCuenta.getEstado());
             comando.setInt(5, nuevaCuenta.getIdCliente());
 
-            boolean resultado = comando.execute();
+            int filas = comando.executeUpdate();
+            
+            ResultSet rs = comando.getGeneratedKeys();
+
+            Integer idCuenta = null;
+
+            if (rs.next()) {
+                idCuenta = rs.getInt(1);
+            }
+            
 
             LOGGER.fine("Se registró la cuenta");
 
-            return new Cuenta(null, nuevaCuenta.getNumeroCuenta(), nuevaCuenta.getFechaApertura(), nuevaCuenta.getSaldo(), nuevaCuenta.getEstado(), null);
+            return new Cuenta(idCuenta, nuevaCuenta.getNumeroCuenta(), nuevaCuenta.getFechaApertura(), nuevaCuenta.getSaldo(), nuevaCuenta.getEstado(), null);
 
         }catch (SQLException ex) {
             throw new PersistenciaException("No fue posible agregar la cuenta", ex);
@@ -130,6 +139,50 @@ public class CuentaDAO implements ICuentaDAO {
             throw new PersistenciaException("Error al obtener la cuenta por número", ex);
         }
         
+    }
+
+    @Override
+    public void retirar(Integer idCuenta, Float monto) throws PersistenciaException {
+        try {
+            String sql = """
+                        UPDATE Cuentas
+                        SET Saldo = Saldo - ?
+                        WHERE IdCuenta = ?
+                        """;
+
+            Connection conexion = ConexionBD.crearConexion();
+
+            PreparedStatement comando = conexion.prepareStatement(sql);
+
+            comando.setFloat(1, monto);
+            comando.setInt(2, idCuenta);
+            comando.executeUpdate();
+        }catch(SQLException ex){
+            throw new PersistenciaException("Error al retirar dinero", ex);
+        }
+    }
+
+    @Override
+    public void depositar(Integer idCuenta, Float monto) throws PersistenciaException {
+        try {
+            String sql = """
+                        UPDATE Cuentas
+                        SET Saldo = Saldo + ?
+                        WHERE IdCuenta = ?
+                        """;
+
+            Connection conexion = ConexionBD.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+
+            comando.setFloat(1, monto);
+            comando.setInt(2, idCuenta);
+
+            comando.executeUpdate();
+
+        }catch(SQLException ex){
+            throw new PersistenciaException("Error al depositar dinero", ex);
+        }
+
     }
 
     

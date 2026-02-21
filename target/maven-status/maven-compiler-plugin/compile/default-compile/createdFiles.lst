@@ -1,6 +1,7 @@
 proyectotransferencia\dtos\NuevaOperacionDTO.class
 proyectotransferencia\persistencia\CuentaDAO.class
 proyectotransferencia\entidades\Cliente.class
+proyectotransferencia\sesion\Sesion.class
 proyectotransferencia\negocio\OperacionesBO.class
 proyectotransferencia\negocio\NegocioException.class
 proyectotransferencia\presentacion\ConfirmarTransferenciaFORM.class
@@ -12,12 +13,13 @@ proyectotransferencia\presentacion\ConfirmarTransferenciaFORM$2.class
 proyectotransferencia\dtos\NuevaTransferenciaDTO.class
 com\mycompany\proyectotransferencia\ProyectoTransferencia.class
 proyectotransferencia\negocio\ITransferenciaBO.class
+proyectotransferencia\presentacion\InicioDeSesionDatosFORM.class
 proyectotransferencia\persistencia\PersistenciaException.class
 proyectotransferencia\conexion\ConexionBD.class
 proyectotransferencia\negocio\ICuentaBO.class
 proyectotransferencia\persistencia\ICuentaDAO.class
 proyectotransferencia\presentacion\NuevoClienteFORM.class
-proyectotransferencia\presentacion\PantallaInicioFORM.class
+proyectotransferencia\presentacion\PantallasOperacionesClienteFORM.class
 proyectotransferencia\persistencia\IOperacionesDAO.class
 proyectotransferencia\presentacion\LoginFORM.class
 proyectotransferencia\presentacion\NuevaCuentaFORM.class

@@ -20,41 +20,23 @@ import proyectotransferencia.persistencia.IOperacionesDAO;
 import proyectotransferencia.persistencia.ITransferenciaDAO;
 import proyectotransferencia.persistencia.OperacionesDAO;
 import proyectotransferencia.persistencia.TransferenciaDAO;
-import proyectotransferencia.presentacion.CrearOperacionFORM;
-import proyectotransferencia.presentacion.NuevaCuentaFORM;
-import proyectotransferencia.presentacion.NuevoClienteFORM;
-import proyectotransferencia.presentacion.PantallaInicioFORM;
+import proyectotransferencia.presentacion.LoginFORM;
+
 
 public class ProyectoTransferencia {
 
     public static void main(String[] args) {
-        // DAO
-//    ICuentaDAO cuentaDAO = new CuentaDAO();
-//    IClientesDAO clientesDAO = new ClientesDAO();
-//
-//    // BO
-//    ICuentaBO cuentaBO = new CuentaBO(cuentaDAO);
-//    IClientesBO clientesBO = new ClientesBO(clientesDAO);
-//
-//    // FORM
-//    NuevaCuentaFORM nuevaCuentaForm = new NuevaCuentaFORM(cuentaBO, clientesBO);
-//    nuevaCuentaForm.setVisible(true);
-
-        ClientesDAO clientesDAO = new ClientesDAO();
+        IClientesDAO clientesDAO = new ClientesDAO();
         ICuentaDAO cuentaDAO = new CuentaDAO();
+        IOperacionesDAO operacionesDAO = new OperacionesDAO();
         ITransferenciaDAO transferenciaDAO = new TransferenciaDAO();
 
         IClientesBO clientesBO = new ClientesBO(clientesDAO);
         ICuentaBO cuentaBO = new CuentaBO(cuentaDAO);
-        ITransferenciaBO transferenciaBO =
-                new TransferenciaBO(transferenciaDAO);
+        IOperacionesBO operacionesBO = new OperacionesBO(operacionesDAO);
 
-        PantallaInicioFORM pantalla =
-                new PantallaInicioFORM(
-                        clientesBO,
-                        cuentaBO,
-                        transferenciaBO);
-
-        pantalla.setVisible(true);
+        ITransferenciaBO transferenciaBO = new TransferenciaBO(transferenciaDAO);
+        LoginFORM e = new LoginFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+       e.setVisible(true);
     }
 }

@@ -64,9 +64,7 @@ public class ConfirmarTransferenciaFORM extends javax.swing.JFrame {
         }
     }
 
-    private void regresar() {
-        this.dispose();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -175,11 +173,11 @@ public class ConfirmarTransferenciaFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
-        confirmar();
+        this.confirmar();
     }//GEN-LAST:event_btnAceptar1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        regresar();
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

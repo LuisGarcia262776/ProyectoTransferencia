@@ -21,4 +21,10 @@ public interface ICuentaBO {
     
     public abstract Cuenta obtenerCuentaNumero(String numeroCuenta) throws NegocioException;
     
+    public abstract void retirar(Integer idCuenta, Float monto) throws NegocioException;
+
+    public abstract void depositar(Integer idCuenta, Float monto) throws NegocioException;
+    
+    
+    
 }

@@ -6,6 +6,7 @@ package proyectotransferencia.presentacion;
 
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
+import proyectotransferencia.negocio.IOperacionesBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 
 /**
@@ -18,12 +19,13 @@ public class LoginFORM extends javax.swing.JFrame {
     private final IClientesBO clientesBO;
     private final ICuentaBO cuentaBO;
     private final ITransferenciaBO transferenciaBO;
+    private final IOperacionesBO operacionesBO;
 
-    public LoginFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO) {
+    public LoginFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
         this.clientesBO = clientesBO;
         this.cuentaBO = cuentaBO;
         this.transferenciaBO = transferenciaBO;
-
+        this.operacionesBO = operacionesBO;
         initComponents();
     }
 
@@ -33,7 +35,7 @@ public class LoginFORM extends javax.swing.JFrame {
     private void initComponents() {
 
         lblInicioSesion = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
+        btnCrearCuenta = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,8 +43,8 @@ public class LoginFORM extends javax.swing.JFrame {
         lblInicioSesion.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         lblInicioSesion.setText("INICIO DE SESION");
 
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        btnCrearCuenta.setText("Crear Cuenta");
+        btnCrearCuenta.addActionListener(this::btnCrearCuentaActionPerformed);
 
         btnIniciarSesion.setText("IniciarSesion");
         btnIniciarSesion.addActionListener(this::btnIniciarSesionActionPerformed);
@@ -58,7 +60,7 @@ public class LoginFORM extends javax.swing.JFrame {
                         .addComponent(lblInicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(104, 104, 104)
-                        .addComponent(btnSalir)
+                        .addComponent(btnCrearCuenta)
                         .addGap(62, 62, 62)
                         .addComponent(btnIniciarSesion)))
                 .addContainerGap(61, Short.MAX_VALUE))
@@ -70,30 +72,30 @@ public class LoginFORM extends javax.swing.JFrame {
                 .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIniciarSesion)
-                    .addComponent(btnSalir))
+                    .addComponent(btnCrearCuenta))
                 .addGap(0, 142, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
+        NuevoClienteFORM nue = new NuevoClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+        nue.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
+    }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        PantallaInicioFORM menu = new PantallaInicioFORM(clientesBO, cuentaBO, transferenciaBO);
-
-        menu.setVisible(true);
-
+        InicioDeSesionDatosFORM nue = new InicioDeSesionDatosFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+        nue.setVisible(true);
         this.dispose(); // cierra Login
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnIniciarSesion;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel lblInicioSesion;
     // End of variables declaration//GEN-END:variables
 }

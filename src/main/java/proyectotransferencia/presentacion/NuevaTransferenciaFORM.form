@@ -39,8 +39,8 @@
                           <Component id="txtMonto" max="32767" attributes="0"/>
                           <Component id="txtSaldo" max="32767" attributes="0"/>
                           <Component id="txtConcepto" pref="248" max="32767" attributes="0"/>
-                          <Component id="txtCuentaOrigen" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cmbCuentaDestino" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbCuentaDestino" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cmbCuentaOrigen" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -60,7 +60,7 @@
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblCuentaOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCuentaOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmbCuentaOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -140,9 +140,19 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnContinuarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCuentaOrigen">
-    </Component>
     <Component class="javax.swing.JComboBox" name="cmbCuentaDestino">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="1">
+            <StringItem index="0" value="Cuentas"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbCuentaOrigen">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="1">
