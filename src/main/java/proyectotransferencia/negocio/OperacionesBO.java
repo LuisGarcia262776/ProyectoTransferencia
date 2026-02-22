@@ -42,9 +42,7 @@ public class OperacionesBO implements IOperacionesBO {
             throw new NegocioException("El Tipo de Operacion no Puede Estar Vacio", null);
         }
 
-        if(!nuevaOperacion.getTipoOperacion().equalsIgnoreCase("DEPOSITO") &&
-           !nuevaOperacion.getTipoOperacion().equalsIgnoreCase("RETIRO") &&
-           !nuevaOperacion.getTipoOperacion().equalsIgnoreCase("TRANSFERENCIA")){
+        if(!nuevaOperacion.getTipoOperacion().equalsIgnoreCase("RETIROSINTARJETA") && !nuevaOperacion.getTipoOperacion().equalsIgnoreCase("TRANSFERENCIA")){
             throw new NegocioException("Tipo de Operacion Invalido", null);
         }
 

@@ -35,6 +35,7 @@
                           <Component id="btnTransferencia" max="32767" attributes="0"/>
                           <Component id="btnRetiroSinCuenta" pref="138" max="32767" attributes="0"/>
                           <Component id="btnSalir" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnCrearCuenta" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -50,9 +51,11 @@
               <Component id="btnTransferencia" min="-2" pref="52" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnRetiroSinCuenta" min="-2" pref="55" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnCrearCuenta" pref="41" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnSalir" min="-2" pref="38" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="82" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -91,6 +94,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCrearCuenta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Crear Nueva Cuenta"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearCuentaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

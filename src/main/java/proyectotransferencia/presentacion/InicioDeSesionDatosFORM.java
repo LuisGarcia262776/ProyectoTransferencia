@@ -9,6 +9,7 @@ import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
 import proyectotransferencia.sesion.Sesion;
@@ -24,12 +25,14 @@ public class InicioDeSesionDatosFORM extends javax.swing.JFrame {
     private final ICuentaBO cuentaBO;
     private final ITransferenciaBO transferenciaBO;
     private final IOperacionesBO operacionesBO;
+    private final IRetiroSinCuentaBO retiroBO;
     
-    public InicioDeSesionDatosFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
+    public InicioDeSesionDatosFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO) {
         this.clientesBO = clientesBO;
         this.cuentaBO = cuentaBO;
         this.transferenciaBO = transferenciaBO;
         this.operacionesBO = operacionesBO;
+        this.retiroBO = retiroBO;
         initComponents();
     }
     
@@ -57,7 +60,7 @@ public class InicioDeSesionDatosFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Bienvenido " + cliente.getNombre());
 
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
 
             menu.setVisible(true);
 

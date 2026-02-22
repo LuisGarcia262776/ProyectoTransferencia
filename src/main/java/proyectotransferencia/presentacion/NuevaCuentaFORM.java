@@ -15,6 +15,7 @@ import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
 import proyectotransferencia.sesion.Sesion;
@@ -30,15 +31,17 @@ public class NuevaCuentaFORM extends javax.swing.JFrame {
     private final IClientesBO clienteBO;
     private final ITransferenciaBO transferenciaBO;
     private final IOperacionesBO operacionesBO;
+    private final IRetiroSinCuentaBO retiroBO;
 
     /**
      * Creates new form NuevaCuentaFORM
      */
-    public NuevaCuentaFORM(ICuentaBO cuentaBO, IClientesBO clienteBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
+    public NuevaCuentaFORM(ICuentaBO cuentaBO, IClientesBO clienteBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO) {
         this.cuentaBO = cuentaBO;
         this.clienteBO = clienteBO;
         this.transferenciaBO = transferenciaBO;
         this.operacionesBO = operacionesBO;
+        this.retiroBO = retiroBO;
         initComponents();
         generarNumeroCuenta();
         cargarClientes();
@@ -105,7 +108,7 @@ public class NuevaCuentaFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Cuenta Guardada Con Exito");
 
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clienteBO, cuentaBO, transferenciaBO, operacionesBO);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clienteBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
 
             menu.setVisible(true);
 

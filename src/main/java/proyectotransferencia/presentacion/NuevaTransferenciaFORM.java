@@ -16,6 +16,7 @@ import proyectotransferencia.entidades.Operaciones;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
 import proyectotransferencia.sesion.Sesion;
@@ -31,15 +32,17 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
     private final ICuentaBO cuentaBO;
     private final IOperacionesBO operacionesBO;
     private final IClientesBO clientesBO;
+    private final IRetiroSinCuentaBO retiroBO;
 
     /**
      * Creates new form NuevaTransferencia
      */
-    public NuevaTransferenciaFORM(ITransferenciaBO transferenciaBO, ICuentaBO cuentaBO, IOperacionesBO operacionesBO, IClientesBO clientesBO) {
+    public NuevaTransferenciaFORM(ITransferenciaBO transferenciaBO, ICuentaBO cuentaBO, IOperacionesBO operacionesBO, IClientesBO clientesBO, IRetiroSinCuentaBO retiroBO) {
         this.transferenciaBO = transferenciaBO;
         this.cuentaBO = cuentaBO;
         this.operacionesBO = operacionesBO;
         this.clientesBO = clientesBO;
+        this.retiroBO = retiroBO;
         initComponents();
         txtSaldo.setEditable(false); 
         cargarCuentasDestino();
@@ -157,7 +160,7 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Transferencia realizada correctamente");
            
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
             menu.setVisible(true);
             this.dispose();
         }catch(NegocioException ex){

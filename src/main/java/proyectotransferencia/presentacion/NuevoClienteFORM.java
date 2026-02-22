@@ -14,6 +14,7 @@ import proyectotransferencia.entidades.Cliente;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
 import proyectotransferencia.sesion.Sesion;
@@ -29,14 +30,16 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
     private final ICuentaBO cuentaBO;
     private final ITransferenciaBO transferenciaBO;
     private final IOperacionesBO operacionesBO;
+    private final IRetiroSinCuentaBO retiroBO;
     /**
      * Creates new form NuevoClienteFORM
      */
-    public NuevoClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
+    public NuevoClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO) {
         this.clientesBO = clientesBO;
         this.cuentaBO = cuentaBO;
         this.transferenciaBO = transferenciaBO;
         this.operacionesBO = operacionesBO;
+        this.retiroBO = retiroBO;
         initComponents();
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
@@ -76,7 +79,7 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Cliente guardado correctamente" + "Su ID es: " + clienteID.getIdCliente());
             
 
-            NuevaCuentaFORM pantalla = new NuevaCuentaFORM(cuentaBO, clientesBO, transferenciaBO, operacionesBO);
+            NuevaCuentaFORM pantalla = new NuevaCuentaFORM(cuentaBO, clientesBO, transferenciaBO, operacionesBO, retiroBO);
 
             pantalla.setVisible(true);
 

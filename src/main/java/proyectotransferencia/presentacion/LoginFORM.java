@@ -7,6 +7,7 @@ package proyectotransferencia.presentacion;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 
 /**
@@ -20,12 +21,14 @@ public class LoginFORM extends javax.swing.JFrame {
     private final ICuentaBO cuentaBO;
     private final ITransferenciaBO transferenciaBO;
     private final IOperacionesBO operacionesBO;
+    private final IRetiroSinCuentaBO retiroBO;
 
-    public LoginFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO) {
+    public LoginFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO) {
         this.clientesBO = clientesBO;
         this.cuentaBO = cuentaBO;
         this.transferenciaBO = transferenciaBO;
         this.operacionesBO = operacionesBO;
+        this.retiroBO = retiroBO;
         initComponents();
     }
 
@@ -37,6 +40,7 @@ public class LoginFORM extends javax.swing.JFrame {
         lblInicioSesion = new javax.swing.JLabel();
         btnCrearCuenta = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
+        btnRetiroSinCuenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +52,9 @@ public class LoginFORM extends javax.swing.JFrame {
 
         btnIniciarSesion.setText("IniciarSesion");
         btnIniciarSesion.addActionListener(this::btnIniciarSesionActionPerformed);
+
+        btnRetiroSinCuenta.setText("Retiro Sin Cuenta");
+        btnRetiroSinCuenta.addActionListener(this::btnRetiroSinCuentaActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,7 +69,10 @@ public class LoginFORM extends javax.swing.JFrame {
                         .addGap(104, 104, 104)
                         .addComponent(btnCrearCuenta)
                         .addGap(62, 62, 62)
-                        .addComponent(btnIniciarSesion)))
+                        .addComponent(btnIniciarSesion))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addComponent(btnRetiroSinCuenta)))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -73,29 +83,38 @@ public class LoginFORM extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIniciarSesion)
                     .addComponent(btnCrearCuenta))
-                .addGap(0, 142, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addComponent(btnRetiroSinCuenta)
+                .addGap(0, 72, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        NuevoClienteFORM nue = new NuevoClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+        NuevoClienteFORM nue = new NuevoClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
         nue.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        InicioDeSesionDatosFORM nue = new InicioDeSesionDatosFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+        InicioDeSesionDatosFORM nue = new InicioDeSesionDatosFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
         nue.setVisible(true);
         this.dispose(); // cierra Login
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
+        ConfirmacionRetiroSinCuentaFORM form = new ConfirmacionRetiroSinCuentaFORM(retiroBO, cuentaBO, operacionesBO, transferenciaBO, clientesBO);
+        form.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JButton btnRetiroSinCuenta;
     private javax.swing.JLabel lblInicioSesion;
     // End of variables declaration//GEN-END:variables
 }

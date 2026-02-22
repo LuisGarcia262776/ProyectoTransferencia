@@ -9,16 +9,20 @@ import proyectotransferencia.negocio.CuentaBO;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.OperacionesBO;
+import proyectotransferencia.negocio.RetiroSinCuentaBO;
 import proyectotransferencia.negocio.TransferenciaBO;
 import proyectotransferencia.persistencia.ClientesDAO;
 import proyectotransferencia.persistencia.CuentaDAO;
 import proyectotransferencia.persistencia.IClientesDAO;
 import proyectotransferencia.persistencia.ICuentaDAO;
 import proyectotransferencia.persistencia.IOperacionesDAO;
+import proyectotransferencia.persistencia.IRetiroSinCuentaDAO;
 import proyectotransferencia.persistencia.ITransferenciaDAO;
 import proyectotransferencia.persistencia.OperacionesDAO;
+import proyectotransferencia.persistencia.RetiroSinCuentaDAO;
 import proyectotransferencia.persistencia.TransferenciaDAO;
 import proyectotransferencia.presentacion.LoginFORM;
 
@@ -27,16 +31,18 @@ public class ProyectoTransferencia {
 
     public static void main(String[] args) {
         IClientesDAO clientesDAO = new ClientesDAO();
+        IRetiroSinCuentaDAO retiroDAO = new RetiroSinCuentaDAO();
         ICuentaDAO cuentaDAO = new CuentaDAO();
         IOperacionesDAO operacionesDAO = new OperacionesDAO();
         ITransferenciaDAO transferenciaDAO = new TransferenciaDAO();
 
         IClientesBO clientesBO = new ClientesBO(clientesDAO);
+        IRetiroSinCuentaBO retiroBO = new RetiroSinCuentaBO(retiroDAO);
         ICuentaBO cuentaBO = new CuentaBO(cuentaDAO);
         IOperacionesBO operacionesBO = new OperacionesBO(operacionesDAO);
 
         ITransferenciaBO transferenciaBO = new TransferenciaBO(transferenciaDAO);
-        LoginFORM e = new LoginFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO);
+        LoginFORM e = new LoginFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
        e.setVisible(true);
     }
 }

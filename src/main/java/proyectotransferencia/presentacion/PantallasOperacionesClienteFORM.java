@@ -7,6 +7,7 @@ package proyectotransferencia.presentacion;
 import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
 import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
 import proyectotransferencia.negocio.ITransferenciaBO;
 
 /**
@@ -20,12 +21,14 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
     private final ICuentaBO cuentaBO;
     private final ITransferenciaBO transferenciaBO;
     private final IOperacionesBO operacionesBO;
+    private final IRetiroSinCuentaBO retiroBO;
 
-     public PantallasOperacionesClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO){
+     public PantallasOperacionesClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO){
          this.clientesBO = clientesBO;
          this.cuentaBO = cuentaBO;
          this.transferenciaBO = transferenciaBO;
          this.operacionesBO = operacionesBO;
+         this.retiroBO = retiroBO;
         initComponents();
     }
      
@@ -40,6 +43,7 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
         btnTransferencia = new javax.swing.JButton();
         btnRetiroSinCuenta = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnCrearCuenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +60,9 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
 
+        btnCrearCuenta.setText("Crear Nueva Cuenta");
+        btnCrearCuenta.addActionListener(this::btnCrearCuentaActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -70,7 +77,8 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnTransferencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnRetiroSinCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCrearCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -81,16 +89,18 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
                 .addComponent(btnTransferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnRetiroSinCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
+                .addComponent(btnCrearCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 82, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferenciaActionPerformed
-        CrearOperacionFORM form = new CrearOperacionFORM(operacionesBO, cuentaBO, transferenciaBO, clientesBO);
+        CrearOperacionFORM form = new CrearOperacionFORM(operacionesBO, cuentaBO, transferenciaBO, clientesBO, retiroBO);
 
         form.setVisible(true);
 
@@ -98,16 +108,25 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransferenciaActionPerformed
 
     private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
-
+         RetiroSinCuentaFORM form = new RetiroSinCuentaFORM(retiroBO, cuentaBO, operacionesBO, transferenciaBO, clientesBO);
+         form.setVisible(true);
+         this.dispose();
     }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
+        NuevaCuentaFORM form = new NuevaCuentaFORM(cuentaBO, clientesBO, transferenciaBO, operacionesBO, retiroBO);
+        form.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCrearCuentaActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnRetiroSinCuenta;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransferencia;
