@@ -26,8 +26,8 @@ import proyectotransferencia.entidades.Cuenta;
  */
 public class CuentaDAO implements ICuentaDAO {
 
-   private static final Logger LOGGER = Logger.getLogger(CuentaDAO.class.getName());
-   
+    private static final Logger LOGGER = Logger.getLogger(CuentaDAO.class.getName());
+
     @Override
     public Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta) throws PersistenciaException {
         try {
@@ -49,7 +49,7 @@ public class CuentaDAO implements ICuentaDAO {
             comando.setInt(5, nuevaCuenta.getIdCliente());
 
             int filas = comando.executeUpdate();
-            
+
             ResultSet rs = comando.getGeneratedKeys();
 
             Integer idCuenta = null;
@@ -57,21 +57,20 @@ public class CuentaDAO implements ICuentaDAO {
             if (rs.next()) {
                 idCuenta = rs.getInt(1);
             }
-            
 
             LOGGER.fine("Se registró la cuenta");
 
             return new Cuenta(idCuenta, nuevaCuenta.getNumeroCuenta(), nuevaCuenta.getFechaApertura(), nuevaCuenta.getSaldo(), nuevaCuenta.getEstado(), null);
 
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new PersistenciaException("No fue posible agregar la cuenta", ex);
         }
-    
+
     }
 
     @Override
     public List<Cuenta> obtenerCuenta() throws PersistenciaException {
-       List<Cuenta> lista = new ArrayList<>();
+        List<Cuenta> lista = new ArrayList<>();
 
         try {
             String sql = "SELECT * FROM cuentas";
@@ -98,8 +97,8 @@ public class CuentaDAO implements ICuentaDAO {
             }
 
             return lista;
-   
-        }catch(SQLException ex) {
+
+        } catch (SQLException ex) {
             throw new PersistenciaException("Error al obtener las Cuentas", ex);
         }
     }
@@ -135,10 +134,10 @@ public class CuentaDAO implements ICuentaDAO {
 
             return null;
 
-        }catch(SQLException ex) {
+        } catch (SQLException ex) {
             throw new PersistenciaException("Error al obtener la cuenta por número", ex);
         }
-        
+
     }
 
     @Override
@@ -157,7 +156,7 @@ public class CuentaDAO implements ICuentaDAO {
             comando.setFloat(1, monto);
             comando.setInt(2, idCuenta);
             comando.executeUpdate();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             throw new PersistenciaException("Error al retirar dinero", ex);
         }
     }
@@ -179,13 +178,113 @@ public class CuentaDAO implements ICuentaDAO {
 
             comando.executeUpdate();
 
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             throw new PersistenciaException("Error al depositar dinero", ex);
         }
 
     }
 
-    
-        
+    @Override
+    public Cuenta obtenerCuentaPorId(Integer idCuenta) throws PersistenciaException {
+        try {
+            String sql = "SELECT * FROM Cuentas WHERE IdCuenta = ?";
+            Connection conexion = ConexionBD.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+
+            comando.setInt(1, idCuenta);
+
+            ResultSet resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                Integer id = resultado.getInt("IdCuenta");
+                String numero = resultado.getString("NumeroCuenta");
+
+                Date fechaBD = resultado.getDate("FechaApertura");
+                GregorianCalendar fecha = new GregorianCalendar();
+                fecha.setTime(fechaBD);
+
+                Double saldo = resultado.getDouble("Saldo");
+                String estado = resultado.getString("Estado");
+                Integer idCliente = resultado.getInt("IdCliente");
+
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(idCliente);
+
+                return new Cuenta(id, numero, fecha, saldo, estado, cliente);
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            throw new PersistenciaException("Error al obtener cuenta por ID", ex);
+        }
+
+    }
+
+    @Override
+    public void actualizarEstado(Integer idCuenta, String estado) throws PersistenciaException {
+        try {
+            String sql = """
+                     UPDATE Cuentas
+                     SET Estado = ?
+                     WHERE IdCuenta = ?
+                     """;
+
+            Connection conexion = ConexionBD.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+
+            comando.setString(1, estado);
+            comando.setInt(2, idCuenta);
+
+            comando.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new PersistenciaException("Error al actualizar estado", ex);
+        }
+    }
+
+    @Override
+    public List<Cuenta> obtenerCuentasPorCliente(Integer idCliente)
+            throws PersistenciaException {
+
+        List<Cuenta> lista = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM Cuentas WHERE IdCliente = ?";
+            Connection conexion = ConexionBD.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+
+            comando.setInt(1, idCliente);
+
+            ResultSet rs = comando.executeQuery();
+
+            while (rs.next()) {
+
+                Integer idCuenta = rs.getInt("IdCuenta");
+                String numeroCuenta = rs.getString("NumeroCuenta");
+
+                Date fechaBD = rs.getDate("FechaApertura");
+                GregorianCalendar fecha = new GregorianCalendar();
+                fecha.setTime(fechaBD);
+
+                Double saldo = rs.getDouble("Saldo");
+                String estado = rs.getString("Estado");
+
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(idCliente);
+
+                Cuenta cuenta = new Cuenta(
+                        idCuenta, numeroCuenta, fecha, saldo, estado, cliente);
+
+                lista.add(cuenta);
+            }
+
+            return lista;
+
+        } catch (SQLException ex) {
+            throw new PersistenciaException(
+                    "Error al obtener cuentas del cliente", ex);
+        }
+    }
+
 }
-    

@@ -14,17 +14,21 @@ import proyectotransferencia.persistencia.PersistenciaException;
  * @author PC GAMER MASTER RACE
  */
 public interface ICuentaBO {
-    
-    public abstract Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta)throws NegocioException;
-    
+
+    public abstract Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta) throws NegocioException;
+
     public abstract List<Cuenta> obtenerCuenta() throws NegocioException;
-    
+
     public abstract Cuenta obtenerCuentaNumero(String numeroCuenta) throws NegocioException;
-    
+
     public abstract void retirar(Integer idCuenta, Float monto) throws NegocioException;
 
     public abstract void depositar(Integer idCuenta, Float monto) throws NegocioException;
-    
-    
-    
+
+    public List<Cuenta> obtenerCuentasDelCliente()
+            throws NegocioException;
+
+    public void cambiarEstadoCuenta(Integer idCuenta, String contrasenia)
+            throws NegocioException;
+
 }

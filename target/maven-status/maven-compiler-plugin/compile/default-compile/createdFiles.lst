@@ -3,7 +3,13 @@ proyectotransferencia\persistencia\CuentaDAO.class
 proyectotransferencia\sesion\Sesion.class
 proyectotransferencia\dtos\NuevoRetiroSinCuentaDTO.class
 proyectotransferencia\negocio\OperacionesBO.class
+proyectotransferencia\presentacion\GestionDeCuentasFORM$2.class
 proyectotransferencia\negocio\NegocioException.class
+<<<<<<< Updated upstream
+=======
+proyectotransferencia\presentacion\ConfirmarTransferenciaFORM.class
+proyectotransferencia\presentacion\GestionDeCuentasFORM$3.class
+>>>>>>> Stashed changes
 proyectotransferencia\entidades\Operaciones.class
 proyectotransferencia\presentacion\NuevaTransferenciaFORM.class
 proyectotransferencia\negocio\ClientesBO.class
@@ -14,7 +20,9 @@ com\mycompany\proyectotransferencia\ProyectoTransferencia.class
 proyectotransferencia\negocio\ITransferenciaBO.class
 proyectotransferencia\negocio\IRetiroSinCuentaBO.class
 proyectotransferencia\presentacion\InicioDeSesionDatosFORM.class
+proyectotransferencia\presentacion\GestionDeCuentasFORM.class
 proyectotransferencia\persistencia\PersistenciaException.class
+proyectotransferencia\presentacion\ConfirmacionTransferenciaFORM.class
 proyectotransferencia\conexion\ConexionBD.class
 proyectotransferencia\negocio\ICuentaBO.class
 proyectotransferencia\persistencia\ICuentaDAO.class
@@ -25,9 +33,14 @@ proyectotransferencia\persistencia\IOperacionesDAO.class
 proyectotransferencia\presentacion\LoginFORM.class
 proyectotransferencia\presentacion\NuevaCuentaFORM.class
 proyectotransferencia\dtos\NuevaCuentaDTO.class
+proyectotransferencia\presentacion\GestionDeCuentasFORM$1.class
 proyectotransferencia\negocio\IClientesBO.class
 proyectotransferencia\persistencia\ClientesDAO.class
+<<<<<<< Updated upstream
 proyectotransferencia\negocio\RetiroSinCuentaBO.class
+=======
+proyectotransferencia\presentacion\ConfirmacionTransferenciaFORM$1.class
+>>>>>>> Stashed changes
 proyectotransferencia\persistencia\ITransferenciaDAO.class
 proyectotransferencia\dtos\NuevoClienteDTO.class
 proyectotransferencia\persistencia\TransferenciaDAO.class
