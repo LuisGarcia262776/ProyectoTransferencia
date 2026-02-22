@@ -11,6 +11,7 @@ import proyectotransferencia.entidades.Cuenta;
 import proyectotransferencia.entidades.Operaciones;
 import proyectotransferencia.persistencia.IOperacionesDAO;
 import proyectotransferencia.persistencia.PersistenciaException;
+import proyectotransferencia.sesion.Sesion;
 
 /**
  *
@@ -56,6 +57,21 @@ public class OperacionesBO implements IOperacionesBO {
         }catch(PersistenciaException ex){
             throw new NegocioException("Error al Crear La Operacion", ex);
         } 
+    }
+
+    @Override
+    public List<Operaciones> obtenerHistorialCliente() throws NegocioException {
+        Integer idCliente = Sesion.getIdCliente();
+
+        if (idCliente == null) {
+            throw new NegocioException("No hay una sesión activa para cargar el historial.", null);
+        }
+
+        try {
+            return this.operacionesDAO.obtenerHistorialPorCliente(idCliente);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al obtener el historial de operaciones", ex);
+        }
     }
 
 

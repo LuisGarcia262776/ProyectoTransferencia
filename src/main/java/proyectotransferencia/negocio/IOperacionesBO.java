@@ -17,5 +17,5 @@ public interface IOperacionesBO {
     
     public abstract Operaciones crearOperacion(NuevaOperacionDTO nuevaOperacion)throws NegocioException;
     
-    
+    public abstract List<Operaciones> obtenerHistorialCliente() throws NegocioException;
 }

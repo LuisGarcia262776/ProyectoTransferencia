@@ -10,6 +10,7 @@ proyectotransferencia\dtos\NuevaTransferenciaDTO.class
 com\mycompany\proyectotransferencia\ProyectoTransferencia.class
 proyectotransferencia\presentacion\GestionDeCuentasFORM.class
 proyectotransferencia\persistencia\PersistenciaException.class
+proyectotransferencia\presentacion\HistorialOperacionesFORM$2.class
 proyectotransferencia\conexion\ConexionBD.class
 proyectotransferencia\negocio\ICuentaBO.class
 proyectotransferencia\presentacion\NuevoClienteFORM.class
@@ -22,6 +23,7 @@ proyectotransferencia\persistencia\ITransferenciaDAO.class
 proyectotransferencia\dtos\NuevoClienteDTO.class
 proyectotransferencia\entidades\Cuenta.class
 proyectotransferencia\persistencia\OperacionesDAO.class
+proyectotransferencia\presentacion\HistorialOperacionesFORM$1.class
 proyectotransferencia\persistencia\IClientesDAO.class
 proyectotransferencia\entidades\Transferencia.class
 proyectotransferencia\dtos\NuevoRetiroSinCuentaDTO.class
@@ -42,6 +44,7 @@ proyectotransferencia\negocio\RetiroSinCuentaBO.class
 proyectotransferencia\persistencia\TransferenciaDAO.class
 proyectotransferencia\persistencia\IRetiroSinCuentaDAO.class
 proyectotransferencia\negocio\CuentaBO.class
+proyectotransferencia\presentacion\HistorialOperacionesFORM.class
 proyectotransferencia\presentacion\CrearOperacionFORM.class
 proyectotransferencia\negocio\TransferenciaBO.class
 proyectotransferencia\presentacion\ConfirmacionRetiroSinCuentaFORM.class

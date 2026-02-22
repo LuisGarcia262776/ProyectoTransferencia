@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Logger;
 import proyectotransferencia.conexion.ConexionBD;
 import proyectotransferencia.dtos.NuevaOperacionDTO;
@@ -66,6 +69,46 @@ public class OperacionesDAO implements IOperacionesDAO{
         }catch(SQLException ex){
             throw new PersistenciaException("Error al crear operación", ex);
         }
+    }
+
+    @Override
+    public List<Operaciones> obtenerHistorialPorCliente(Integer idCliente) throws PersistenciaException {
+           List<Operaciones> historial = new ArrayList<>();
+            String sql = "SELECT o.idOperacion, o.fechaHora, o.tipoOperacion, o.idCuenta " +
+                         "FROM Operaciones o " +
+                         "INNER JOIN Cuentas c ON o.idCuenta = c.idCuenta " +
+                         "WHERE c.idCliente = ? " +
+                         "ORDER BY o.fechaHora DESC"; 
+
+            try (Connection conexion = ConexionBD.crearConexion();
+                 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+                ps.setInt(1, idCliente);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    Operaciones op = new Operaciones();
+                    op.setIdOperacion(rs.getInt("idOperacion"));
+
+                    Timestamp ts = rs.getTimestamp("fechaHora");
+                    if (ts != null) {
+                        GregorianCalendar cal = new GregorianCalendar();
+                        cal.setTimeInMillis(ts.getTime());
+                        op.setFechaHora(cal);
+                    }
+
+                    op.setTipoOperacion(rs.getString("tipoOperacion"));
+
+                    Cuenta cuenta = new Cuenta();
+                    cuenta.setIdCuenta(rs.getInt("idCuenta"));
+                    op.setCuenta(cuenta); 
+
+                    historial.add(op);
+                }
+            } catch (SQLException ex) {
+                throw new PersistenciaException("Error al consultar el historial de operaciones", ex);
+            }
+            return historial;
     }
         
         
