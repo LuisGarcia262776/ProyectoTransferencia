@@ -44,5 +44,6 @@ public class ProyectoTransferencia {
         ITransferenciaBO transferenciaBO = new TransferenciaBO(transferenciaDAO);
         LoginFORM e = new LoginFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
        e.setVisible(true);
+        System.out.println("Preuba para enviar ya acutalizado");
     }
 }
