@@ -60,7 +60,7 @@ public class InicioDeSesionDatosFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Bienvenido " + cliente.getNombre());
 
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO, null);
 
             menu.setVisible(true);
 

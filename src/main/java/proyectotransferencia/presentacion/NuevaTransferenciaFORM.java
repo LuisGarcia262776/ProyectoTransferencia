@@ -160,7 +160,7 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Transferencia realizada correctamente");
            
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO, null);
             menu.setVisible(true);
             this.dispose();
         }catch(NegocioException ex){

@@ -17,45 +17,41 @@ import proyectotransferencia.negocio.NegocioException;
  */
 public class GestionDeCuentasFORM extends javax.swing.JFrame {
 
-    
     private ICuentaBO cuentaBO;
+
     /**
      * Creates new form TablaDeCuentasFORM
      */
-    public GestionDeCuentasFORM() {
+    public GestionDeCuentasFORM(ICuentaBO cuentaBO) {
+        this.cuentaBO = cuentaBO;
         initComponents();
         cargarTabla();
     }
-    
-private void cargarTabla() {
 
-    try {
+    private void cargarTabla() {
 
-        List<Cuenta> cuentas = cuentaBO.obtenerCuentasDelCliente();
+        try {
+            List<Cuenta> cuentas = cuentaBO.obtenerCuentasDelCliente();
 
-        DefaultTableModel modelo =
-                (DefaultTableModel) tablaCuentas.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) tablaCuentas.getModel();
+            modelo.setRowCount(0);
 
-        modelo.setRowCount(0);
+            for (Cuenta c : cuentas) {
+                modelo.addRow(new Object[]{
+                    c.getIdCuenta(),
+                    c.getNumeroCuenta(),
+                    c.getSaldo(),
+                    c.getEstado()
+                });
+            }
 
-        for (Cuenta c : cuentas) {
-
-            modelo.addRow(new Object[]{
-                c.getIdCuenta(),
-                c.getNumeroCuenta(),
-                c.getSaldo(),
-                c.getEstado()
-            });
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-
-    } catch (NegocioException ex) {
-
-        JOptionPane.showMessageDialog(this,
-                ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,7 +65,9 @@ private void cargarTabla() {
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCuentas = new javax.swing.JTable();
-        btnCambiarEstadoCuenta = new javax.swing.JButton();
+        btnActivarCuenta = new javax.swing.JButton();
+        btnDesactivarCuenta = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,13 +92,21 @@ private void cargarTabla() {
 
         jScrollPane2.setViewportView(jScrollPane1);
 
-        btnCambiarEstadoCuenta.setText("Activar / Desactivar Cuenta (Alternar)");
-        btnCambiarEstadoCuenta.setToolTipText("");
-        btnCambiarEstadoCuenta.addActionListener(new java.awt.event.ActionListener() {
+        btnActivarCuenta.setText("Activar Cuenta");
+        btnActivarCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarEstadoCuentaActionPerformed(evt);
+                btnActivarCuentaActionPerformed(evt);
             }
         });
+
+        btnDesactivarCuenta.setText("Desactivar Cuenta");
+        btnDesactivarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesactivarCuentaActionPerformed(evt);
+            }
+        });
+
+        btnRegresar.setText("Regresar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,37 +115,48 @@ private void cargarTabla() {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCambiarEstadoCuenta)
-                        .addGap(0, 162, Short.MAX_VALUE)))
+                        .addComponent(btnActivarCuenta)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDesactivarCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegresar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCambiarEstadoCuenta)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActivarCuenta)
+                    .addComponent(btnDesactivarCuenta)
+                    .addComponent(btnRegresar))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCambiarEstadoCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoCuentaActionPerformed
-        int filaSeleccionada = tablaCuentas.getSelectedRow();
+    private void btnActivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarCuentaActionPerformed
 
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccione una cuenta primero",
-                    "Aviso",
-                    JOptionPane.WARNING_MESSAGE);
+        int fila = tablaCuentas.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una cuenta");
             return;
         }
 
-        Integer idCuenta = (Integer) tablaCuentas.getValueAt(filaSeleccionada, 0);
+        Integer idCuenta = (Integer) tablaCuentas.getValueAt(fila, 0);
+        String estado = tablaCuentas.getValueAt(fila, 3).toString();
+
+        if (estado.equalsIgnoreCase("ACTIVA")) {
+            JOptionPane.showMessageDialog(this,
+                    "La cuenta ya está activa");
+            return;
+        }
 
         String contrasenia = JOptionPane.showInputDialog(this,
                 "Ingrese su contraseña:");
@@ -148,62 +165,83 @@ private void cargarTabla() {
             return;
         }
 
-        try {
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+                "¿Seguro que desea activar esta cuenta?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
 
-            cuentaBO.cambiarEstadoCuenta(idCuenta, contrasenia);
+        if (confirmacion == JOptionPane.YES_OPTION) {
 
-            JOptionPane.showMessageDialog(this,
-                    "Estado actualizado correctamente");
+            try {
+                cuentaBO.activarCuenta(idCuenta, contrasenia);
+                JOptionPane.showMessageDialog(this,
+                        "Cuenta activada correctamente");
+                cargarTabla();
 
-            cargarTabla(); 
-
-        } catch (NegocioException ex) {
-
-            JOptionPane.showMessageDialog(this,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
-    }//GEN-LAST:event_btnCambiarEstadoCuentaActionPerformed
+    }//GEN-LAST:event_btnActivarCuentaActionPerformed
+
+    private void btnDesactivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivarCuentaActionPerformed
+        int fila = tablaCuentas.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una cuenta");
+            return;
+        }
+
+        Integer idCuenta = (Integer) tablaCuentas.getValueAt(fila, 0);
+        String estado = tablaCuentas.getValueAt(fila, 3).toString();
+
+        if (estado.equalsIgnoreCase("INACTIVA")) {
+            JOptionPane.showMessageDialog(this,
+                    "La cuenta ya está inactiva");
+            return;
+        }
+
+        String contrasenia = JOptionPane.showInputDialog(this,
+                "Ingrese su contraseña:");
+
+        if (contrasenia == null || contrasenia.isEmpty()) {
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+                "¿Seguro que desea desactivar esta cuenta?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+
+            try {
+                cuentaBO.desactivarCuenta(idCuenta, contrasenia);
+                JOptionPane.showMessageDialog(this,
+                        "Cuenta desactivada correctamente");
+                cargarTabla();
+
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnDesactivarCuentaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionDeCuentasFORM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionDeCuentasFORM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionDeCuentasFORM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionDeCuentasFORM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionDeCuentasFORM().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCambiarEstadoCuenta;
+    private javax.swing.JButton btnActivarCuenta;
+    private javax.swing.JButton btnDesactivarCuenta;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tablaCuentas;

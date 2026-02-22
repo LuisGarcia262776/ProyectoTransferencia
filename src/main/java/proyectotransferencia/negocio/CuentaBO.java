@@ -1,11 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyectotransferencia.negocio;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import proyectotransferencia.dtos.NuevaCuentaDTO;
@@ -14,10 +8,6 @@ import proyectotransferencia.persistencia.ICuentaDAO;
 import proyectotransferencia.persistencia.PersistenciaException;
 import proyectotransferencia.sesion.Sesion;
 
-/**
- *
- * @author PC GAMER MASTER RACE
- */
 public class CuentaBO implements ICuentaBO {
 
     private final ICuentaDAO cuentaDAO;
@@ -28,16 +18,13 @@ public class CuentaBO implements ICuentaBO {
 
     @Override
     public Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta) throws NegocioException {
+
         if (nuevaCuenta == null) {
             throw new NegocioException("Los Datos de la Cuenta no Pueden ser Nulos", null);
         }
 
-        if (nuevaCuenta.getNumeroCuenta() == null) {
-            throw new NegocioException("El Numero de Cuenta No Puede ser Nulo", null);
-        }
-
-        if (nuevaCuenta.getNumeroCuenta().isEmpty()) {
-            throw new NegocioException("El Numero de Cuenta No Puede Estar Vacio", null);
+        if (nuevaCuenta.getNumeroCuenta() == null || nuevaCuenta.getNumeroCuenta().isEmpty()) {
+            throw new NegocioException("El Numero de Cuenta No Puede ser Nulo o Vacio", null);
         }
 
         if (nuevaCuenta.getFechaApertura() == null) {
@@ -50,19 +37,13 @@ public class CuentaBO implements ICuentaBO {
             throw new NegocioException("La Fecha No Puede Ser Futura", null);
         }
 
-        if (nuevaCuenta.getSaldo() == null) {
-            throw new NegocioException("El Saldo No Puede Ser Nulo", null);
+        if (nuevaCuenta.getSaldo() == null || nuevaCuenta.getSaldo() < 0) {
+            throw new NegocioException("El Saldo No Puede Ser Nulo o Negativo", null);
         }
 
-        if (nuevaCuenta.getSaldo() < 0) {
-            throw new NegocioException("El Saldo No Puede Ser Negativo", null);
-        }
-
-        if (nuevaCuenta.getEstado() == null) {
-            throw new NegocioException("El Estado no Puede Ser Nulo", null);
-        }
-
-        if (!nuevaCuenta.getEstado().equalsIgnoreCase("ACTIVA") && !nuevaCuenta.getEstado().equalsIgnoreCase("INACTIVA")) {
+        if (nuevaCuenta.getEstado() == null ||
+           (!nuevaCuenta.getEstado().equalsIgnoreCase("ACTIVA") &&
+            !nuevaCuenta.getEstado().equalsIgnoreCase("INACTIVA"))) {
             throw new NegocioException("El Estado debe ser ACTIVA o INACTIVA", null);
         }
 
@@ -71,12 +52,10 @@ public class CuentaBO implements ICuentaBO {
         }
 
         try {
-            Cuenta cuenta = this.cuentaDAO.crearCuenta(nuevaCuenta);
-            return cuenta;
+            return cuentaDAO.crearCuenta(nuevaCuenta);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al Crear La Cuenta", ex);
         }
-
     }
 
     @Override
@@ -93,9 +72,8 @@ public class CuentaBO implements ICuentaBO {
         try {
             return cuentaDAO.obtenerCuentaNumero(numeroCuenta);
         } catch (PersistenciaException ex) {
-            throw new NegocioException("No se Pudieron Obtener El Numero de Cuenta", ex);
+            throw new NegocioException("No se Pudo Obtener El Numero de Cuenta", ex);
         }
-
     }
 
     @Override
@@ -117,8 +95,7 @@ public class CuentaBO implements ICuentaBO {
     }
 
     @Override
-    public List<Cuenta> obtenerCuentasDelCliente()
-            throws NegocioException {
+    public List<Cuenta> obtenerCuentasDelCliente() throws NegocioException {
 
         if (Sesion.getClienteActivo() == null) {
             throw new NegocioException("No hay sesión activa", null);
@@ -128,13 +105,12 @@ public class CuentaBO implements ICuentaBO {
             return cuentaDAO.obtenerCuentasPorCliente(
                     Sesion.getIdCliente());
         } catch (PersistenciaException ex) {
-            throw new NegocioException(
-                    "No se pudieron obtener las cuentas", ex);
+            throw new NegocioException("No se pudieron obtener las cuentas", ex);
         }
     }
 
     @Override
-    public void cambiarEstadoCuenta(Integer idCuenta, String contrasenia)
+    public void activarCuenta(Integer idCuenta, String contrasenia)
             throws NegocioException {
 
         if (Sesion.getClienteActivo() == null) {
@@ -142,37 +118,64 @@ public class CuentaBO implements ICuentaBO {
         }
 
         try {
+
             Cuenta cuenta = cuentaDAO.obtenerCuentaPorId(idCuenta);
 
             if (cuenta == null) {
-                throw new NegocioException("Cuenta no encontrada", null);
+                throw new NegocioException("La cuenta no existe", null);
             }
 
-            // Validar que la cuenta pertenece al cliente en sesión
-            if (!cuenta.getCliente().getIdCliente()
-                    .equals(Sesion.getIdCliente())) {
-
-                throw new NegocioException("No puedes modificar esta cuenta", null);
+            if (!cuenta.getCliente().getIdCliente().equals(Sesion.getIdCliente())) {
+                throw new NegocioException("La cuenta no pertenece al cliente", null);
             }
 
-            // Validar contraseña
-            if (!Sesion.getClienteActivo().getContrasenia()
-                    .equals(contrasenia)) {
+            if (cuenta.getEstado().equalsIgnoreCase("ACTIVA")) {
+                throw new NegocioException("La cuenta ya está activa", null);
+            }
 
+            if (!Sesion.getClienteActivo().getContrasenia().equals(contrasenia)) {
                 throw new NegocioException("Contraseña incorrecta", null);
             }
 
-            // Cambiar estado
-            String nuevoEstado
-                    = cuenta.getEstado().equalsIgnoreCase("ACTIVA")
-                    ? "INACTIVA"
-                    : "ACTIVA";
-
-            cuentaDAO.actualizarEstado(idCuenta, nuevoEstado);
+            cuentaDAO.actualizarEstado(idCuenta, "ACTIVA");
 
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al cambiar estado", ex);
+            throw new NegocioException("Error al activar la cuenta", ex);
         }
     }
 
+    @Override
+    public void desactivarCuenta(Integer idCuenta, String contrasenia)
+            throws NegocioException {
+
+        if (Sesion.getClienteActivo() == null) {
+            throw new NegocioException("No hay sesión activa", null);
+        }
+
+        try {
+
+            Cuenta cuenta = cuentaDAO.obtenerCuentaPorId(idCuenta);
+
+            if (cuenta == null) {
+                throw new NegocioException("La cuenta no existe", null);
+            }
+
+            if (!cuenta.getCliente().getIdCliente().equals(Sesion.getIdCliente())) {
+                throw new NegocioException("La cuenta no pertenece al cliente", null);
+            }
+
+            if (cuenta.getEstado().equalsIgnoreCase("INACTIVA")) {
+                throw new NegocioException("La cuenta ya está inactiva", null);
+            }
+
+            if (!Sesion.getClienteActivo().getContrasenia().equals(contrasenia)) {
+                throw new NegocioException("Contraseña incorrecta", null);
+            }
+
+            cuentaDAO.actualizarEstado(idCuenta, "INACTIVA");
+
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al desactivar la cuenta", ex);
+        }
+    }
 }
