@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyectotransferencia.negocio;
 
 import proyectotransferencia.dtos.NuevaTransferenciaDTO;
@@ -9,19 +5,38 @@ import proyectotransferencia.entidades.Transferencia;
 import proyectotransferencia.persistencia.ITransferenciaDAO;
 import proyectotransferencia.persistencia.PersistenciaException;
 
-
 /**
- *
- * @author PC GAMER MASTER RACE
+ * Clase que implementa la lógica de negocio para las transferencias bancarias.
+ * 
+ * Se encarga de validar los datos de la transferencia antes de delegar la
+ * operación al DAO correspondiente. Convierte excepciones de persistencia
+ * en {@link NegocioException}.
  */
 public class TransferenciaBO implements ITransferenciaBO {
 
+    /**
+     * DAO utilizado para interactuar con la base de datos de transferencias.
+     */
     private final ITransferenciaDAO transferenciaDAO;
 
+    /**
+     * Constructor que inicializa la clase con un DAO de transferencias.
+     * 
+     * @param transferenciaDAO DAO para acceder a la persistencia de transferencias.
+     */
     public TransferenciaBO(ITransferenciaDAO transferenciaDAO) {
         this.transferenciaDAO = transferenciaDAO;
     }
 
+    /**
+     * Crea una nueva transferencia bancaria.
+     * 
+     * Realiza validaciones sobre el monto, concepto y existencia del ID de operación.
+     * 
+     * @param nuevaTransferenciaDTO DTO con los datos necesarios para la transferencia.
+     * @return La transferencia creada con la información registrada.
+     * @throws NegocioException si los datos son inválidos o ocurre un error de persistencia.
+     */
     @Override
     public Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferenciaDTO) throws NegocioException {
 

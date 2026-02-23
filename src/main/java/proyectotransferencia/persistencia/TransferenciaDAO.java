@@ -6,7 +6,6 @@ package proyectotransferencia.persistencia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 import proyectotransferencia.conexion.ConexionBD;
@@ -15,15 +14,28 @@ import proyectotransferencia.entidades.Operaciones;
 import proyectotransferencia.entidades.Transferencia;
 
 /**
- *
- * @author PC GAMER MASTER RACE
+ * Clase que implementa la interfaz ITransferenciaDAO.
+ * Permite registrar transferencias bancarias en la base de datos.
+ * Cada transferencia está asociada a una operación y contiene monto y concepto.
+ * Gestiona la persistencia de las transferencias.
+ * 
+ * Autor: PC GAMER MASTER RACE
  */
 public class TransferenciaDAO implements ITransferenciaDAO {
+
+    // Logger para registrar información y errores
     private static final Logger LOGGER = Logger.getLogger(TransferenciaDAO.class.getName());
 
+    /**
+     * Registra una nueva transferencia en la base de datos.
+     * @param nuevaTransferencia DTO con los datos de la transferencia a crear
+     * @return Objeto Transferencia con los datos guardados, incluyendo la operación asociada
+     * @throws PersistenciaException si ocurre un error al acceder a la base de datos
+     */
     @Override
     public Transferencia crearTransferencia(NuevaTransferenciaDTO nuevaTransferencia) throws PersistenciaException {
         try {
+            // SQL para insertar la transferencia
             String sql = """
                         INSERT INTO Transferencias(IdOperacion, Monto, Concepto)
                         VALUES (?, ?, ?);
@@ -31,25 +43,26 @@ public class TransferenciaDAO implements ITransferenciaDAO {
             
             Connection conexion = ConexionBD.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(sql);
+
+            // Asignar valores al statement
             comando.setInt(1, nuevaTransferencia.getIdOperacion());
-
             comando.setFloat(2, nuevaTransferencia.getMonto());
-
             comando.setString(3, nuevaTransferencia.getConcepto());
 
+            // Ejecutar inserción
             comando.executeUpdate();
 
             LOGGER.fine("Transferencia creada correctamente");
             
+            // Crear objeto Operaciones solo con ID
             Operaciones operacion = new Operaciones();
             operacion.setIdOperacion(nuevaTransferencia.getIdOperacion());
 
+            // Retornar objeto Transferencia
             return new Transferencia(nuevaTransferencia.getMonto(), nuevaTransferencia.getConcepto(), operacion);
 
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             throw new PersistenciaException("Error al crear transferencia", ex);
         }
     }
-        
-    
 }

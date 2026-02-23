@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyectotransferencia.negocio;
 
 import java.util.GregorianCalendar;
@@ -14,16 +10,38 @@ import proyectotransferencia.persistencia.PersistenciaException;
 import proyectotransferencia.sesion.Sesion;
 
 /**
- *
- * @author PC GAMER MASTER RACE
+ * Clase que implementa la lógica de negocio para operaciones bancarias.
+ * 
+ * Permite crear operaciones y consultar el historial de operaciones
+ * de un cliente. Valida los datos de entrada y maneja las excepciones
+ * de persistencia transformándolas en {@link NegocioException}.
  */
 public class OperacionesBO implements IOperacionesBO {
-     private final IOperacionesDAO operacionesDAO;
 
+    /**
+     * DAO utilizado para realizar las operaciones en la base de datos.
+     */
+    private final IOperacionesDAO operacionesDAO;
+
+    /**
+     * Constructor que inicializa la clase con un DAO de operaciones.
+     * 
+     * @param operacionesDAO DAO para acceder a las operaciones persistidas.
+     */
     public OperacionesBO(IOperacionesDAO operacionesDAO) {
         this.operacionesDAO = operacionesDAO;
     }
-    
+
+    /**
+     * Crea una nueva operación bancaria.
+     * 
+     * Valida que la operación no sea nula, que tenga una fecha válida,
+     * que el tipo de operación sea correcto y que la cuenta exista.
+     * 
+     * @param nuevaOperacion DTO con los datos necesarios para la operación.
+     * @return La operación creada con toda la información registrada.
+     * @throws NegocioException si los datos son inválidos o hay un error de persistencia.
+     */
     @Override
     public Operaciones crearOperacion(NuevaOperacionDTO nuevaOperacion) throws NegocioException {
         if(nuevaOperacion == null){
@@ -59,6 +77,12 @@ public class OperacionesBO implements IOperacionesBO {
         } 
     }
 
+    /**
+     * Obtiene el historial de operaciones del cliente actualmente logueado.
+     * 
+     * @return Lista de operaciones realizadas por el cliente.
+     * @throws NegocioException si no hay sesión activa o hay un error de persistencia.
+     */
     @Override
     public List<Operaciones> obtenerHistorialCliente() throws NegocioException {
         Integer idCliente = Sesion.getIdCliente();
@@ -74,7 +98,4 @@ public class OperacionesBO implements IOperacionesBO {
         }
     }
 
-
- 
-    
 }

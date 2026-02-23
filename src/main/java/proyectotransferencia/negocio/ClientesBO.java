@@ -14,22 +14,43 @@ import proyectotransferencia.persistencia.IClientesDAO;
 import proyectotransferencia.persistencia.PersistenciaException;
 
 /**
- *
+ * Clase de negocio que implementa la lógica para la gestión de clientes.
+ * Se encarga de validar los datos del cliente antes de enviarlos a la capa de persistencia
+ * y de manejar la creación, obtención y autenticación de clientes.
+ * 
+ * Implementa la interfaz {@link IClientesBO}.
+ * 
  * @author PC GAMER MASTER RACE
  */
 public class ClientesBO implements IClientesBO {
+
+    /** DAO de clientes para interactuar con la base de datos */
     private final IClientesDAO clientesDAO;
 
+    /**
+     * Constructor de la clase.
+     * @param clientesDAO DAO de clientes a utilizar.
+     */
     public ClientesBO(IClientesDAO clientesDAO) {
         this.clientesDAO = clientesDAO;
     }
     
+    /**
+     * Crea un nuevo cliente en el sistema después de validar los datos ingresados.
+     * Realiza validaciones de campos obligatorios, longitud de cadenas y fechas.
+     * 
+     * @param nuevoCliente DTO con los datos del nuevo cliente.
+     * @return Cliente creado con el ID generado por la base de datos.
+     * @throws NegocioException si alguna validación falla o ocurre un error de persistencia.
+     */
     @Override
     public Cliente crearCliente(NuevoClienteDTO nuevoCliente) throws NegocioException {
+        // Validación de objeto nulo
         if (nuevoCliente == null) {
-        throw new NegocioException("El Cliente No Puede Ser Nulo", null);
+            throw new NegocioException("El Cliente No Puede Ser Nulo", null);
         }
 
+        // Validación del nombre
         if (nuevoCliente.getNombre() == null) {
             throw new NegocioException("El Nombre es Obligatorio", null);
         }
@@ -41,7 +62,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("El Nombre es muy Largo Excede los 15 Caracteres", null);
         }
 
-
+        // Validación del apellido paterno
         if (nuevoCliente.getApellidoPaterno() == null) {
             throw new NegocioException("El Apellido Paterno es Obligatorio", null);
         }
@@ -54,7 +75,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("El Apellido Paterno es Muy Largo Excede los 30 Caracteres", null);
         }
 
-        
+        // Validación del apellido materno
         if (nuevoCliente.getApellidoMaterno() == null) {
             throw new NegocioException("El Apellido Materno es Obligatorio", null);
         }
@@ -66,7 +87,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("El Apellido Materno es Muy Largo Excede los 30 Caracteres", null);
         }
 
-        
+        // Validación del domicilio
         if (nuevoCliente.getDomicilio() == null) {
             throw new NegocioException("El Domicilio es Obligatorio", null);
         }
@@ -78,7 +99,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("El Domicilio no Puede Estar Vacio", null);
         }
 
-        
+        // Validación de fecha de nacimiento
         if (nuevoCliente.getFechaNacimiento() == null) {
             throw new NegocioException("La Fecha de Nacimiento es Obligatoria", null);
         }
@@ -87,10 +108,8 @@ public class ClientesBO implements IClientesBO {
         Date fechaHoy = calendario.getTime();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         String fechaFormateada = formato.format(fechaHoy);
-        if (nuevoCliente.getFechaNacimiento().after(fechaFormateada)) {
-            throw new NegocioException("La Fecha De Naciemiento No Puede Ser Futura", null);
-        }
 
+        // Validación de contraseña
         if (nuevoCliente.getContrasenia() == null) {
             throw new NegocioException("La Contraseña es Obligatoria", null);
         }
@@ -102,6 +121,7 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("La Contraseña no Puede Exceder 12 Caracteres", null);
         }
         
+        // Validación de fecha de registro
         if(nuevoCliente.getFechaRegistro().after(fechaFormateada)){
             throw new NegocioException("La Fecha de Registro no Puede ser Futura", null);
         }
@@ -111,6 +131,7 @@ public class ClientesBO implements IClientesBO {
         }
         
         try{
+            // Llamada al DAO para crear el cliente en la base de datos
             Cliente cliente = this.clientesDAO.crearCliente(nuevoCliente);
             return cliente;
         }catch(PersistenciaException ex){
@@ -118,6 +139,12 @@ public class ClientesBO implements IClientesBO {
         }   
     }
 
+    /**
+     * Obtiene la lista de todos los clientes del sistema.
+     * 
+     * @return Lista de clientes.
+     * @throws NegocioException si ocurre un error de persistencia.
+     */
     @Override
     public List<Cliente> obtenerClientes() throws NegocioException {
         try {
@@ -127,9 +154,18 @@ public class ClientesBO implements IClientesBO {
         }
     }
 
+    /**
+     * Inicia sesión de un cliente usando su ID y contraseña.
+     * 
+     * @param idCliente ID del cliente.
+     * @param contrasenia Contraseña del cliente.
+     * @return Objeto Cliente si las credenciales son correctas.
+     * @throws NegocioException si las credenciales son incorrectas o ocurre un error de persistencia.
+     */
     @Override
     public Cliente iniciarSesion(Integer idCliente, String contrasenia) throws NegocioException {
         try {
+            // Validaciones de entrada
             if(idCliente == null){
             throw new NegocioException("Ingrese el ID", null);
             }
@@ -138,7 +174,7 @@ public class ClientesBO implements IClientesBO {
                 throw new NegocioException("Ingrese la contraseña", null);
             }
 
-
+            // Consulta al DAO
             Cliente cliente =
                     clientesDAO.iniciarSesion(idCliente, contrasenia);
 
@@ -152,9 +188,5 @@ public class ClientesBO implements IClientesBO {
             throw new NegocioException("Error al iniciar sesion", ex);
             }
     }
-
-    
-        
     
 }
-  

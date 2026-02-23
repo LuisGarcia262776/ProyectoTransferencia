@@ -8,17 +8,38 @@ import proyectotransferencia.persistencia.ICuentaDAO;
 import proyectotransferencia.persistencia.PersistenciaException;
 import proyectotransferencia.sesion.Sesion;
 
+/**
+ * Clase de negocio que implementa la lógica para la gestión de cuentas bancarias.
+ * Se encarga de validar los datos de la cuenta antes de enviarlos a la capa de persistencia,
+ * realizar operaciones como retiro, depósito y activar/desactivar cuentas.
+ * 
+ * Implementa la interfaz {@link ICuentaBO}.
+ * 
+ * @author PC GAMER
+ */
 public class CuentaBO implements ICuentaBO {
 
+    /** DAO de cuentas para interactuar con la base de datos */
     private final ICuentaDAO cuentaDAO;
 
+    /**
+     * Constructor de la clase.
+     * @param cuentaDAO DAO de cuentas a utilizar.
+     */
     public CuentaBO(ICuentaDAO cuentaDAO) {
         this.cuentaDAO = cuentaDAO;
     }
 
+    /**
+     * Crea una nueva cuenta bancaria después de validar los datos.
+     * 
+     * @param nuevaCuenta DTO con los datos de la nueva cuenta.
+     * @return La cuenta creada con su ID asignado.
+     * @throws NegocioException si hay errores de validación o de persistencia.
+     */
     @Override
     public Cuenta crearCuenta(NuevaCuentaDTO nuevaCuenta) throws NegocioException {
-
+        // Validaciones de campos obligatorios y restricciones
         if (nuevaCuenta == null) {
             throw new NegocioException("Los Datos de la Cuenta no Pueden ser Nulos", null);
         }
@@ -52,12 +73,19 @@ public class CuentaBO implements ICuentaBO {
         }
 
         try {
+            // Llamada al DAO para crear la cuenta
             return cuentaDAO.crearCuenta(nuevaCuenta);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al Crear La Cuenta", ex);
         }
     }
 
+    /**
+     * Obtiene todas las cuentas registradas en el sistema.
+     * 
+     * @return Lista de cuentas.
+     * @throws NegocioException si ocurre un error al consultar la base de datos.
+     */
     @Override
     public List<Cuenta> obtenerCuenta() throws NegocioException {
         try {
@@ -67,6 +95,13 @@ public class CuentaBO implements ICuentaBO {
         }
     }
 
+    /**
+     * Obtiene una cuenta por su número de cuenta.
+     * 
+     * @param numeroCuenta Número de cuenta a buscar.
+     * @return La cuenta correspondiente.
+     * @throws NegocioException si ocurre un error al consultar la base de datos.
+     */
     @Override
     public Cuenta obtenerCuentaNumero(String numeroCuenta) throws NegocioException {
         try {
@@ -76,6 +111,13 @@ public class CuentaBO implements ICuentaBO {
         }
     }
 
+    /**
+     * Realiza un retiro de dinero de una cuenta específica.
+     * 
+     * @param idCuenta ID de la cuenta.
+     * @param monto Monto a retirar.
+     * @throws NegocioException si ocurre un error en la operación.
+     */
     @Override
     public void retirar(Integer idCuenta, Float monto) throws NegocioException {
         try {
@@ -85,6 +127,13 @@ public class CuentaBO implements ICuentaBO {
         }
     }
 
+    /**
+     * Deposita dinero en una cuenta específica.
+     * 
+     * @param idCuenta ID de la cuenta.
+     * @param monto Monto a depositar.
+     * @throws NegocioException si ocurre un error en la operación.
+     */
     @Override
     public void depositar(Integer idCuenta, Float monto) throws NegocioException {
         try {
@@ -94,9 +143,14 @@ public class CuentaBO implements ICuentaBO {
         }
     }
 
+    /**
+     * Obtiene todas las cuentas asociadas al cliente actualmente activo en sesión.
+     * 
+     * @return Lista de cuentas del cliente activo.
+     * @throws NegocioException si no hay sesión activa o ocurre un error de persistencia.
+     */
     @Override
     public List<Cuenta> obtenerCuentasDelCliente() throws NegocioException {
-
         if (Sesion.getClienteActivo() == null) {
             throw new NegocioException("No hay sesión activa", null);
         }
@@ -109,6 +163,14 @@ public class CuentaBO implements ICuentaBO {
         }
     }
 
+    /**
+     * Activa una cuenta específica después de validar la sesión y la contraseña.
+     * 
+     * @param idCuenta ID de la cuenta a activar.
+     * @param contrasenia Contraseña del cliente activo.
+     * @throws NegocioException si no hay sesión activa, la cuenta no existe,
+     *         ya está activa o la contraseña es incorrecta.
+     */
     @Override
     public void activarCuenta(Integer idCuenta, String contrasenia)
             throws NegocioException {
@@ -118,7 +180,6 @@ public class CuentaBO implements ICuentaBO {
         }
 
         try {
-
             Cuenta cuenta = cuentaDAO.obtenerCuentaPorId(idCuenta);
 
             if (cuenta == null) {
@@ -144,6 +205,14 @@ public class CuentaBO implements ICuentaBO {
         }
     }
 
+    /**
+     * Desactiva una cuenta específica después de validar la sesión y la contraseña.
+     * 
+     * @param idCuenta ID de la cuenta a desactivar.
+     * @param contrasenia Contraseña del cliente activo.
+     * @throws NegocioException si no hay sesión activa, la cuenta no existe,
+     *         ya está inactiva o la contraseña es incorrecta.
+     */
     @Override
     public void desactivarCuenta(Integer idCuenta, String contrasenia)
             throws NegocioException {
@@ -153,7 +222,6 @@ public class CuentaBO implements ICuentaBO {
         }
 
         try {
-
             Cuenta cuenta = cuentaDAO.obtenerCuentaPorId(idCuenta);
 
             if (cuenta == null) {
