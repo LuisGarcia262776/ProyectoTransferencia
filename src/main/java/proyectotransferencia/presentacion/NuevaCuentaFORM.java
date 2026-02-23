@@ -108,7 +108,7 @@ public class NuevaCuentaFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Cuenta Guardada Con Exito");
 
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clienteBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO, null);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clienteBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
 
             menu.setVisible(true);
 

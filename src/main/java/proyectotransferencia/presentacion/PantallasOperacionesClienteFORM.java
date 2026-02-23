@@ -23,13 +23,14 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
     private final IOperacionesBO operacionesBO;
     private final IRetiroSinCuentaBO retiroBO;
 
-    public PantallasOperacionesClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO, proyectotransferencia.negocio.IRetiroSinCuentaBO retiroBO1) {
+    public PantallasOperacionesClienteFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO) {
         this.clientesBO = clientesBO;
         this.cuentaBO = cuentaBO;
         this.transferenciaBO = transferenciaBO;
         this.operacionesBO = operacionesBO;
-        initComponents();
         this.retiroBO = retiroBO;
+        initComponents();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -117,7 +118,7 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransferenciaActionPerformed
 
     private void btnMisCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMisCuentasActionPerformed
-        GestionDeCuentasFORM form = new GestionDeCuentasFORM(cuentaBO);
+        GestionDeCuentasFORM form = new GestionDeCuentasFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
 
         form.setVisible(true);
 
@@ -129,7 +130,9 @@ public class PantallasOperacionesClienteFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnRetiroSinCuenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuenta1ActionPerformed
-        // TODO add your handling code here:
+        RetiroSinCuentaFORM form = new RetiroSinCuentaFORM(retiroBO, cuentaBO, operacionesBO, transferenciaBO, clientesBO);
+        form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRetiroSinCuenta1ActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed

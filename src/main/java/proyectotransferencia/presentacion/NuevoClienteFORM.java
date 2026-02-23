@@ -43,12 +43,9 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
         initComponents();
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
-    
         GregorianCalendar calendario = new GregorianCalendar();
         Date fechaActual = calendario.getTime();
-
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
         txtFechaRegistro.setText(formato.format(fechaActual));
         txtFechaRegistro.setEditable(false); // Para que no se modifique
     }
@@ -125,19 +122,19 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblNombre.setText("Nombre");
+        lblNombre.setText("Nombre:");
 
-        lblApellidoPaterno.setText("ApellidoPaterno");
+        lblApellidoPaterno.setText("ApellidoPaterno:");
 
-        lblApellidoMaterno.setText("ApellidoMaterno");
+        lblApellidoMaterno.setText("ApellidoMaterno:");
 
-        lblDomicilio.setText("Domicilio");
+        lblDomicilio.setText("Domicilio:");
 
-        lblContrasenia.setText("Contraseña");
+        lblContrasenia.setText("Contraseña:");
 
-        lblFechaNacimiento.setText("FechaNacimiento");
+        lblFechaNacimiento.setText("FechaNacimiento:");
 
-        lblFechaRegistro.setText("FechaRegistro");
+        lblFechaRegistro.setText("FechaRegistro:");
 
         txtNombre.addActionListener(this::txtNombreActionPerformed);
 
@@ -175,7 +172,7 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
                             .addComponent(txtDomicilio)
                             .addComponent(txtContrasenia)
                             .addComponent(txtFechaNacimeinto)
-                            .addComponent(txtFechaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
+                            .addComponent(txtFechaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -225,6 +222,10 @@ public class NuevoClienteFORM extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         this.guardar();
+        PantallasOperacionesClienteFORM form = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
+        form.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
     
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {

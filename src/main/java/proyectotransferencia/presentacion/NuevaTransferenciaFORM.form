@@ -50,7 +50,7 @@
                       <Component id="btnContinuar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -95,31 +95,32 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblCuentaOrigen">
       <Properties>
-        <Property name="text" type="java.lang.String" value="CuentaOrigen"/>
+        <Property name="text" type="java.lang.String" value="Cuenta Origen:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblCuentaDestino">
       <Properties>
-        <Property name="text" type="java.lang.String" value="CuentaDestino"/>
+        <Property name="text" type="java.lang.String" value="Cuenta Destino:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblMonto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Monto"/>
+        <Property name="text" type="java.lang.String" value="Monto:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtMonto">
     </Component>
     <Component class="javax.swing.JLabel" name="lblSaldo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Saldo"/>
+        <Property name="text" type="java.lang.String" value="Saldo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtSaldo">
     </Component>
     <Component class="javax.swing.JLabel" name="lblConcepto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Concepto"/>
+        <Property name="text" type="java.lang.String" value="Concepto:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtConcepto">

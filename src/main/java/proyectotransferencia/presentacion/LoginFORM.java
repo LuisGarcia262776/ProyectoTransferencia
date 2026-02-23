@@ -50,7 +50,7 @@ public class LoginFORM extends javax.swing.JFrame {
         btnCrearCuenta.setText("Crear Cuenta");
         btnCrearCuenta.addActionListener(this::btnCrearCuentaActionPerformed);
 
-        btnIniciarSesion.setText("IniciarSesion");
+        btnIniciarSesion.setText("Iniciar Sesion");
         btnIniciarSesion.addActionListener(this::btnIniciarSesionActionPerformed);
 
         btnRetiroSinCuenta.setText("Retiro Sin Cuenta");

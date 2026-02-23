@@ -60,7 +60,7 @@ public class InicioDeSesionDatosFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Bienvenido " + cliente.getNombre());
 
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO, null);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
 
             menu.setVisible(true);
 
@@ -85,7 +85,7 @@ public class InicioDeSesionDatosFORM extends javax.swing.JFrame {
 
         lblIngresaId.setText("Ingresa Tu ID:");
 
-        lblContraseña.setText("Contraseña");
+        lblContraseña.setText("Contraseña:");
 
         txtId.addActionListener(this::txtIdActionPerformed);
 

@@ -3,7 +3,6 @@ proyectotransferencia\persistencia\CuentaDAO.class
 proyectotransferencia\sesion\Sesion.class
 proyectotransferencia\presentacion\GestionDeCuentasFORM$2.class
 proyectotransferencia\negocio\NegocioException.class
-proyectotransferencia\presentacion\ConfirmarTransferenciaFORM.class
 proyectotransferencia\presentacion\NuevaTransferenciaFORM.class
 proyectotransferencia\negocio\ClientesBO.class
 proyectotransferencia\dtos\NuevaTransferenciaDTO.class
@@ -46,5 +45,6 @@ proyectotransferencia\persistencia\IRetiroSinCuentaDAO.class
 proyectotransferencia\negocio\CuentaBO.class
 proyectotransferencia\presentacion\HistorialOperacionesFORM.class
 proyectotransferencia\presentacion\CrearOperacionFORM.class
+proyectotransferencia\presentacion\GestionDeCuentasFORM$4.class
 proyectotransferencia\negocio\TransferenciaBO.class
 proyectotransferencia\presentacion\ConfirmacionRetiroSinCuentaFORM.class

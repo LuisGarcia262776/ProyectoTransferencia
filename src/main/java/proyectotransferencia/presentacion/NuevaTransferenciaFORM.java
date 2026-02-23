@@ -160,7 +160,7 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Transferencia realizada correctamente");
            
-            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO, null);
+            PantallasOperacionesClienteFORM menu = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
             menu.setVisible(true);
             this.dispose();
         }catch(NegocioException ex){
@@ -186,15 +186,16 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblCuentaOrigen.setText("CuentaOrigen");
+        lblCuentaOrigen.setText("Cuenta Origen:");
 
-        lblCuentaDestino.setText("CuentaDestino");
+        lblCuentaDestino.setText("Cuenta Destino:");
+        lblCuentaDestino.setToolTipText("");
 
-        lblMonto.setText("Monto");
+        lblMonto.setText("Monto:");
 
-        lblSaldo.setText("Saldo");
+        lblSaldo.setText("Saldo:");
 
-        lblConcepto.setText("Concepto");
+        lblConcepto.setText("Concepto:");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
@@ -232,7 +233,7 @@ public class NuevaTransferenciaFORM extends javax.swing.JFrame {
                         .addComponent(btnCancelar)
                         .addGap(85, 85, 85)
                         .addComponent(btnContinuar)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -8,7 +8,11 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyectotransferencia.entidades.Cuenta;
+import proyectotransferencia.negocio.IClientesBO;
 import proyectotransferencia.negocio.ICuentaBO;
+import proyectotransferencia.negocio.IOperacionesBO;
+import proyectotransferencia.negocio.IRetiroSinCuentaBO;
+import proyectotransferencia.negocio.ITransferenciaBO;
 import proyectotransferencia.negocio.NegocioException;
 
 /**
@@ -16,14 +20,22 @@ import proyectotransferencia.negocio.NegocioException;
  * @author daren
  */
 public class GestionDeCuentasFORM extends javax.swing.JFrame {
-
-    private ICuentaBO cuentaBO;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionDeCuentasFORM.class.getName());
+    private final IClientesBO clientesBO;
+    private final ICuentaBO cuentaBO;
+    private final ITransferenciaBO transferenciaBO;
+    private final IOperacionesBO operacionesBO;
+    private final IRetiroSinCuentaBO retiroBO;
 
     /**
      * Creates new form TablaDeCuentasFORM
      */
-    public GestionDeCuentasFORM(ICuentaBO cuentaBO) {
+    public GestionDeCuentasFORM(IClientesBO clientesBO, ICuentaBO cuentaBO, ITransferenciaBO transferenciaBO, IOperacionesBO operacionesBO, IRetiroSinCuentaBO retiroBO) {
+        this.clientesBO = clientesBO;
         this.cuentaBO = cuentaBO;
+        this.transferenciaBO = transferenciaBO;
+        this.operacionesBO = operacionesBO;
+        this.retiroBO = retiroBO;
         initComponents();
         cargarTabla();
     }
@@ -107,6 +119,11 @@ public class GestionDeCuentasFORM extends javax.swing.JFrame {
         });
 
         btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,6 +249,12 @@ public class GestionDeCuentasFORM extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDesactivarCuentaActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        PantallasOperacionesClienteFORM form = new PantallasOperacionesClienteFORM(clientesBO, cuentaBO, transferenciaBO, operacionesBO, retiroBO);
+        form.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
